@@ -2,9 +2,9 @@
 'use client'
 
 import React from 'react'
-import { useAuth } from '../hooks/useSupabase'
+import { useAuth } from '@/hooks/useSupabase'
 import LoginForm from '@/components/Auth/LoginForm'
-import PremuniaLayout from '../components/Layout/PremuniaLayout'
+import PremuniaLayout from '@/components/Layout/PremuniaLayout'
 
 export default function Index() {
   const { user, loading, signIn } = useAuth()
