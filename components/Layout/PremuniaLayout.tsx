@@ -1,4 +1,3 @@
-
 'use client'
 
 import React, { useState } from 'react'
@@ -20,11 +19,11 @@ import {
   Shield,
   Crown
 } from 'lucide-react'
-import { useAuth } from '../../hooks/useSupabase'
-import AdminDashboard from '../Dashboard/AdminDashboard'
-import ProspectsWithComparator from '../Prospects/ProspectsWithComparator'
-import AutomationEngine from '../Marketing/AutomationEngine'
-import AdvancedReporting from '../Reports/AdvancedReporting'
+import { useAuth } from '../../hooks/useSupabase.ts' // CORRIGÉ
+import AdminDashboard from '../Dashboard/AdminDashboard.tsx' // CORRIGÉ
+import ProspectsWithComparator from '../Prospects/ProspectsWithComparator.tsx' // CORRIGÉ
+import AutomationEngine from '../Marketing/AutomationEngine.tsx' // CORRIGÉ
+import AdvancedReporting from '../Reports/AdvancedReporting.tsx' // CORRIGÉ
 
 export default function PremuniaLayout() {
   const { user, signOut } = useAuth()
@@ -103,7 +102,7 @@ export default function PremuniaLayout() {
           <Card>
             <CardContent className="p-8 text-center">
               <Upload className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Centre d&apos;Import</h3>
+              <h3 className="text-xl font-semibold mb-2">Centre d'Import</h3>
               <p className="text-gray-600">Fonctionnalité en développement</p>
             </CardContent>
           </Card>
