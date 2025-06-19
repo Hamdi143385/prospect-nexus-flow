@@ -19,11 +19,11 @@ import {
   Shield,
   Crown
 } from 'lucide-react'
-import { useAuth } from '../../hooks/useSupabase.ts' // CORRIGÉ
-import AdminDashboard from '../Dashboard/AdminDashboard.tsx' // CORRIGÉ
-import ProspectsWithComparator from '../Prospects/ProspectsWithComparator.tsx' // CORRIGÉ
-import AutomationEngine from '../Marketing/AutomationEngine.tsx' // CORRIGÉ
-import AdvancedReporting from '../Reports/AdvancedReporting.tsx' // CORRIGÉ
+import { useAuth } from '../../hooks/useSupabase.ts'
+import AdminDashboard from '../Dashboard/AdminDashboard.tsx'
+import ProspectsWithComparator from '../Prospects/ProspectsWithComparator.tsx'
+import AutomationEngine from '../Marketing/AutomationEngine.tsx'
+import AdvancedReporting from '../Reports/AdvancedReporting.tsx'
 
 export default function PremuniaLayout() {
   const { user, signOut } = useAuth()
