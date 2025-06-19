@@ -1,14 +1,28 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useState } from 'react';
+import LoginForm from '@/components/Auth/LoginForm';
+import DashboardLayout from '@/components/Dashboard/DashboardLayout';
 
 const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
+
+  const handleLogin = (email: string, password: string) => {
+    // Simulation d'authentification - en production, ceci serait géré par un service d'auth
+    setUserEmail(email);
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setUserEmail('');
+  };
+
+  if (!isAuthenticated) {
+    return <LoginForm onLogin={handleLogin} />;
+  }
+
+  return <DashboardLayout userEmail={userEmail} onLogout={handleLogout} />;
 };
 
 export default Index;
