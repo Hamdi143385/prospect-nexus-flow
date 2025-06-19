@@ -1,28 +1,29 @@
 
-import React, { useState } from 'react';
-import LoginForm from '@/components/Auth/LoginForm';
-import DashboardLayout from '@/components/Dashboard/DashboardLayout';
+'use client'
 
-const Index = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userEmail, setUserEmail] = useState('');
+import React from 'react'
+import { useAuth } from '@/hooks/useSupabase'
+import LoginForm from '@/components/Auth/LoginForm'
+import PremuniaLayout from '@/components/Layout/PremuniaLayout'
 
-  const handleLogin = (email: string, password: string) => {
-    // Simulation d'authentification - en production, ceci serait géré par un service d'auth
-    setUserEmail(email);
-    setIsAuthenticated(true);
-  };
+export default function Index() {
+  const { user, loading } = useAuth()
 
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    setUserEmail('');
-  };
-
-  if (!isAuthenticated) {
-    return <LoginForm onLogin={handleLogin} />;
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <h2 className="text-xl font-semibold text-gray-800">Premunia CRM</h2>
+          <p className="text-gray-600">Chargement en cours...</p>
+        </div>
+      </div>
+    )
   }
 
-  return <DashboardLayout userEmail={userEmail} onLogout={handleLogout} />;
-};
+  if (!user) {
+    return <LoginForm />
+  }
 
-export default Index;
+  return <PremuniaLayout />
+}

@@ -1,73 +1,255 @@
-# Welcome to your Lovable project
 
-## Project info
+# 🎯 Premunia CRM - Plateforme Complète Mutuelle Santé Seniors
 
-**URL**: https://lovable.dev/projects/a86b38fc-5c6e-49e1-a197-87f5b57a50bd
+## 🌟 Vue d'ensemble
 
-## How can I edit this code?
+Premunia CRM est une plateforme spécialement conçue pour optimiser le cycle de vente des courtiers spécialisés en mutuelle santé pour seniors. Le système s'articule autour d'une gestion multi-rôles sophistiquée, d'un moteur d'automatisation marketing puissant pour la relance ciblée, de tableaux de bord de performance avancés, et d'une intégration native avec le comparateur d'offres Oggo Data.
 
-There are several ways of editing your application.
+## 🚀 Fonctionnalités Principales
 
-**Use Lovable**
+### 🔐 Gestion Multi-Rôles
+- **Admin** : Accès complet, gestion utilisateurs, marketing automation, analytics avancés
+- **Gestionnaire** : Supervision d'équipe, rapports, analytics
+- **Commercial** : Gestion contacts/opportunités, rapports personnels, comparateur intégré
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/a86b38fc-5c6e-49e1-a197-87f5b57a50bd) and start prompting.
+### 📊 Modules Complets
+- **Dashboard Intelligent** - Métriques en temps réel, graphiques interactifs
+- **Gestion Prospects** - CRM avancé avec scoring et segmentation seniors
+- **Pipeline Opportunités** - Suivi visuel des ventes
+- **Marketing Automation** - Campagnes email spécialisées seniors, nurturing, analytics
+- **Reporting Avancé** - Tableaux de bord personnalisés par rôle
+- **Comparateur Oggo** - Intégration native pour comparaison directe des offres
 
-Changes made via Lovable will be committed automatically to this repo.
+### 🎨 Design & UX Premium
+- Interface moderne avec gradients et animations
+- Responsive design pour tous les écrans
+- Navigation contextuelle selon le rôle
+- Composants réutilisables et modulaires
 
-**Use your preferred IDE**
+### ⚡ Fonctionnalités Techniques
+- Authentification sécurisée avec gestion des rôles
+- Base de données Supabase intégrée
+- Hooks personnalisés pour la gestion d'état
+- TypeScript pour la sécurité des types
+- Architecture modulaire et scalable
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🔧 Technologies Utilisées
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Frontend
+- **React 18** avec TypeScript
+- **Tailwind CSS** pour le styling
+- **Shadcn/UI** pour les composants
+- **Lucide React** pour les icônes
+- **Recharts** pour les graphiques
 
-Follow these steps:
+### Backend & Base de Données
+- **Supabase** pour l'authentification et la base de données
+- **PostgreSQL** avec Row Level Security (RLS)
+- **API REST** avec hooks personnalisés
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Intégrations
+- **Oggo Data** - Comparateur d'offres mutuelle santé
+- **Marketing Automation** - Templates seniors personnalisés
+- **Import de données** - Excel, HubSpot, Google Sheets
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 📁 Structure du Projet
 
-# Step 3: Install the necessary dependencies.
-npm i
+```
+premunia-crm/
+├── components/
+│   ├── Dashboard/
+│   │   └── AdminDashboard.tsx          # Dashboard admin complet
+│   ├── Layout/
+│   │   └── PremuniaLayout.tsx          # Layout principal multi-rôles
+│   ├── Marketing/
+│   │   └── AutomationEngine.tsx        # Moteur automation seniors
+│   ├── Prospects/
+│   │   ├── ProspectsWithComparator.tsx # Gestion prospects + comparateur
+│   │   └── OggoIntegration.tsx         # Intégration Oggo Data
+│   └── Reports/
+│       └── AdvancedReporting.tsx       # Reporting commercial avancé
+├── hooks/
+│   └── useSupabase.ts                  # Hooks personnalisés Supabase
+├── lib/
+│   └── supabase/
+│       ├── enhanced-client.ts          # Client Supabase étendu
+│       ├── types.ts                    # Types TypeScript
+│       └── enhanced-database.sql       # Schéma DB complet
+└── src/
+    └── pages/
+        └── Index.tsx                   # Point d'entrée principal
+```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+## 🚀 Installation et Configuration
+
+### 1. Prérequis
+```bash
+Node.js 18+
+npm ou yarn
+Compte Supabase
+```
+
+### 2. Installation
+```bash
+# Cloner le repository
+git clone https://github.com/your-org/premunia-crm.git
+
+# Installer les dépendances
+cd premunia-crm
+npm install
+
+# Configuration Supabase
+cp .env.example .env.local
+```
+
+### 3. Configuration Supabase
+```bash
+# Dans .env.local
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+```
+
+### 4. Base de Données
+```sql
+-- Exécuter le script dans Supabase SQL Editor
+-- Fichier: lib/supabase/enhanced-database.sql
+```
+
+### 5. Démarrage
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## 📊 Fonctionnalités Détaillées
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### 🎯 Marketing Automation Seniors
+- **Templates spécialisés** : Contenus adaptés aux seniors (65+ ans)
+- **Séquences intelligentes** : Nurturing personnalisé selon l'âge et besoins
+- **Scoring automatique** : Algorithme de qualification des prospects seniors
+- **Analytics avancés** : Taux d'ouverture, conversion, ROI par segment
 
-**Use GitHub Codespaces**
+### 📈 Reporting Commercial
+- **Métriques temps réel** : CA, conversions, objectifs
+- **Performance par commercial** : Comparaisons, évolutions, KPIs
+- **Analyse par segments** : Focus sur seniors Premium/Standard
+- **Prédictions IA** : Projections basées sur les tendances
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### 🔄 Intégration Oggo Data
+- **Comparateur intégré** : Frame directement dans les fiches prospects
+- **Recommandations IA** : Offres personnalisées selon profil senior
+- **Analyse concurrentielle** : Comparaison temps réel des offres
+- **Génération de propositions** : Export automatique des meilleures offres
 
-## What technologies are used for this project?
+### 👥 Gestion Prospects Seniors
+- **Segmentation automatique** : Senior Premium, Senior Standard
+- **Scoring IA** : Algorithme prenant en compte âge, budget, santé, urgence
+- **Suivi santé** : Problématiques spécifiques aux seniors
+- **Pipeline visuel** : Étapes adaptées au cycle de vente mutuelle
 
-This project is built with:
+## 🔐 Sécurité et Rôles
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Niveaux d'Accès
+- **Admin** : CRUD complet, automation, objectifs, imports
+- **Manager** : Supervision équipe, rapports, analytics (lecture seule)
+- **Commercial** : Prospects assignés, comparateur, rapports personnels
 
-## How can I deploy this project?
+### Sécurité
+- **Row Level Security (RLS)** : Isolation des données par rôle
+- **Authentification JWT** : Via Supabase Auth
+- **Policies granulaires** : Contrôle d'accès au niveau table
 
-Simply open [Lovable](https://lovable.dev/projects/a86b38fc-5c6e-49e1-a197-87f5b57a50bd) and click on Share -> Publish.
+## 📊 Métriques et KPIs
 
-## Can I connect a custom domain to my Lovable project?
+### KPIs Globaux
+- **Chiffre d'affaires** : Total, par commercial, par segment
+- **Taux de conversion** : Global et par tranche d'âge senior
+- **Score moyen prospects** : Qualité du pipeline
+- **ROI automation** : Performance des campagnes seniors
 
-Yes, you can!
+### Métriques Seniors
+- **Conversions 60+** : Focus segment principal
+- **Ticket moyen senior** : Valeur des contrats
+- **Satisfaction clients** : Feedback post-vente
+- **Délai de conversion** : Cycle de vente seniors
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 🔗 Intégrations
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### Oggo Data
+```javascript
+// Intégration native dans les fiches prospects
+<div id="oggodata-icomparator-health" style="width:100%;height:600px;"></div>
+<script src="https://cks.oggo-data.net/icomparator/health.js"></script>
+```
+
+### Sources de Données
+- **Excel** : Import massif prospects
+- **HubSpot API** : Synchronisation CRM
+- **Google Sheets** : Import collaboratif
+
+## 🚀 Déploiement
+
+### Production
+```bash
+# Build de production
+npm run build
+
+# Déploiement
+npm run deploy
+```
+
+### Variables d'Environnement
+```bash
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_OGGO_API_KEY=
+NEXT_PUBLIC_ENVIRONMENT=production
+```
+
+## 📚 Documentation Technique
+
+### Architecture
+- **Frontend** : React 18 + TypeScript + Tailwind
+- **Backend** : Supabase (PostgreSQL + Auth + Realtime)
+- **State Management** : Custom hooks + Context
+- **Styling** : Tailwind CSS + Shadcn/UI
+
+### Performance
+- **Lazy Loading** : Composants et routes
+- **Optimized Queries** : Index DB optimisés pour seniors
+- **Caching** : React Query pour les API calls
+- **Responsive** : Mobile-first design
+
+## 🤝 Contribution
+
+### Développement
+```bash
+# Fork du projet
+# Créer une branche feature
+git checkout -b feature/nouvelle-fonctionnalite
+
+# Commit et push
+git commit -m "Ajout fonctionnalité X"
+git push origin feature/nouvelle-fonctionnalite
+
+# Créer une Pull Request
+```
+
+### Standards
+- **TypeScript** strict mode
+- **ESLint** + Prettier
+- **Tests** unitaires Jest
+- **Documentation** inline JSDoc
+
+## 📞 Support
+
+### Contact
+- **Email** : support@premunia.fr
+- **Documentation** : docs.premunia.fr
+- **Issues** : GitHub Issues
+
+### Licence
+MIT License - Voir [LICENSE.md](LICENSE.md)
+
+---
+
+**Premunia CRM** - *La solution CRM nouvelle génération pour courtiers en mutuelle santé seniors* 🎯
