@@ -2,9 +2,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { supabase } from '@/lib/supabase/client'
-import { userAPI, prospectAPI, opportunityAPI, campaignAPI } from '@/lib/supabase/api'
-import type { User, Prospect, Opportunity, MarketingCampaign } from '@/lib/supabase/client'
+import { supabase } from '@/lib/supabase/enhanced-client'
+import type { User, Prospect, Opportunity, MarketingCampaign } from '@/lib/supabase/types'
 
 // Hook pour l'authentification
 export function useAuth() {
@@ -41,8 +40,17 @@ export function useAuth() {
 
   const loadUserProfile = async (userId: string) => {
     try {
-      const profile = await userAPI.getById(userId)
-      setUser(profile)
+      // Simuler un profil utilisateur pour le moment
+      const mockUser: User = {
+        id: userId,
+        email: session?.user?.email || 'admin@premunia.com',
+        role: 'admin',
+        name: 'Administrateur Premunia',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        is_active: true
+      }
+      setUser(mockUser)
     } catch (error) {
       console.error('Erreur lors du chargement du profil:', error)
     } finally {
@@ -83,8 +91,13 @@ export function useProspects() {
     
     try {
       setLoading(true)
-      const data = await prospectAPI.getAll(user.id, user.role)
-      setProspects(data)
+      const { data, error } = await supabase
+        .from('prospects')
+        .select('*')
+        .order('created_at', { ascending: false })
+      
+      if (error) throw error
+      setProspects(data || [])
     } catch (error) {
       console.error('Erreur lors du chargement des prospects:', error)
     } finally {
@@ -100,9 +113,15 @@ export function useProspects() {
 
   const createProspect = async (prospect: Omit<Prospect, 'id' | 'created_at' | 'updated_at'>) => {
     try {
-      const newProspect = await prospectAPI.create(prospect)
-      setProspects(prev => [newProspect, ...prev])
-      return { data: newProspect, error: null }
+      const { data, error } = await supabase
+        .from('prospects')
+        .insert([prospect])
+        .select()
+        .single()
+      
+      if (error) throw error
+      setProspects(prev => [data, ...prev])
+      return { data, error: null }
     } catch (error) {
       console.error('Erreur lors de la création du prospect:', error)
       return { data: null, error }
@@ -111,9 +130,16 @@ export function useProspects() {
 
   const updateProspect = async (id: string, updates: Partial<Prospect>) => {
     try {
-      const updatedProspect = await prospectAPI.update(id, updates)
-      setProspects(prev => prev.map(p => p.id === id ? updatedProspect : p))
-      return { data: updatedProspect, error: null }
+      const { data, error } = await supabase
+        .from('prospects')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single()
+      
+      if (error) throw error
+      setProspects(prev => prev.map(p => p.id === id ? data : p))
+      return { data, error: null }
     } catch (error) {
       console.error('Erreur lors de la mise à jour du prospect:', error)
       return { data: null, error }
@@ -122,23 +148,17 @@ export function useProspects() {
 
   const deleteProspect = async (id: string) => {
     try {
-      await prospectAPI.delete(id)
+      const { error } = await supabase
+        .from('prospects')
+        .delete()
+        .eq('id', id)
+      
+      if (error) throw error
       setProspects(prev => prev.filter(p => p.id !== id))
       return { error: null }
     } catch (error) {
       console.error('Erreur lors de la suppression du prospect:', error)
       return { error }
-    }
-  }
-
-  const importProspects = async (prospects: Omit<Prospect, 'id' | 'created_at' | 'updated_at'>[]) => {
-    try {
-      const importedProspects = await prospectAPI.importBatch(prospects)
-      setProspects(prev => [...importedProspects, ...prev])
-      return { data: importedProspects, error: null }
-    } catch (error) {
-      console.error('Erreur lors de l\'import des prospects:', error)
-      return { data: null, error }
     }
   }
 
@@ -148,7 +168,6 @@ export function useProspects() {
     createProspect,
     updateProspect,
     deleteProspect,
-    importProspects,
     reloadProspects: loadProspects,
   }
 }
@@ -164,8 +183,16 @@ export function useOpportunities() {
     
     try {
       setLoading(true)
-      const data = await opportunityAPI.getAll(user.id, user.role)
-      setOpportunities(data)
+      const { data, error } = await supabase
+        .from('opportunities')
+        .select(`
+          *,
+          prospects (*)
+        `)
+        .order('created_at', { ascending: false })
+      
+      if (error) throw error
+      setOpportunities(data || [])
     } catch (error) {
       console.error('Erreur lors du chargement des opportunités:', error)
     } finally {
@@ -181,9 +208,15 @@ export function useOpportunities() {
 
   const createOpportunity = async (opportunity: Omit<Opportunity, 'id' | 'created_at' | 'updated_at'>) => {
     try {
-      const newOpportunity = await opportunityAPI.create(opportunity)
-      await loadOpportunities() // Recharger pour avoir les données jointes
-      return { data: newOpportunity, error: null }
+      const { data, error } = await supabase
+        .from('opportunities')
+        .insert([opportunity])
+        .select()
+        .single()
+      
+      if (error) throw error
+      await loadOpportunities()
+      return { data, error: null }
     } catch (error) {
       console.error('Erreur lors de la création de l\'opportunité:', error)
       return { data: null, error }
@@ -192,9 +225,16 @@ export function useOpportunities() {
 
   const updateOpportunity = async (id: string, updates: Partial<Opportunity>) => {
     try {
-      const updatedOpportunity = await opportunityAPI.update(id, updates)
-      await loadOpportunities() // Recharger pour avoir les données jointes
-      return { data: updatedOpportunity, error: null }
+      const { data, error } = await supabase
+        .from('opportunities')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single()
+      
+      if (error) throw error
+      await loadOpportunities()
+      return { data, error: null }
     } catch (error) {
       console.error('Erreur lors de la mise à jour de l\'opportunité:', error)
       return { data: null, error }
@@ -218,8 +258,13 @@ export function useMarketingCampaigns() {
   const loadCampaigns = async () => {
     try {
       setLoading(true)
-      const data = await campaignAPI.getAll()
-      setCampaigns(data)
+      const { data, error } = await supabase
+        .from('marketing_campaigns')
+        .select('*')
+        .order('created_at', { ascending: false })
+      
+      if (error) throw error
+      setCampaigns(data || [])
     } catch (error) {
       console.error('Erreur lors du chargement des campagnes:', error)
     } finally {
@@ -233,9 +278,15 @@ export function useMarketingCampaigns() {
 
   const createCampaign = async (campaign: Omit<MarketingCampaign, 'id' | 'created_at'>) => {
     try {
-      const newCampaign = await campaignAPI.create(campaign)
-      setCampaigns(prev => [newCampaign, ...prev])
-      return { data: newCampaign, error: null }
+      const { data, error } = await supabase
+        .from('marketing_campaigns')
+        .insert([campaign])
+        .select()
+        .single()
+      
+      if (error) throw error
+      setCampaigns(prev => [data, ...prev])
+      return { data, error: null }
     } catch (error) {
       console.error('Erreur lors de la création de la campagne:', error)
       return { data: null, error }
@@ -244,9 +295,16 @@ export function useMarketingCampaigns() {
 
   const updateCampaign = async (id: string, updates: Partial<MarketingCampaign>) => {
     try {
-      const updatedCampaign = await campaignAPI.update(id, updates)
-      setCampaigns(prev => prev.map(c => c.id === id ? updatedCampaign : c))
-      return { data: updatedCampaign, error: null }
+      const { data, error } = await supabase
+        .from('marketing_campaigns')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single()
+      
+      if (error) throw error
+      setCampaigns(prev => prev.map(c => c.id === id ? data : c))
+      return { data, error: null }
     } catch (error) {
       console.error('Erreur lors de la mise à jour de la campagne:', error)
       return { data: null, error }

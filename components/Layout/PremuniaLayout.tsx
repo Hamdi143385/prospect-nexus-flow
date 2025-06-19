@@ -20,7 +20,7 @@ import {
   Shield,
   Crown
 } from 'lucide-react'
-import { useAuth } from '@/hooks/useSupabase'
+import { useAuth } from '../../hooks/useSupabase'
 import AdminDashboard from '../Dashboard/AdminDashboard'
 import ProspectsWithComparator from '../Prospects/ProspectsWithComparator'
 import AutomationEngine from '../Marketing/AutomationEngine'

@@ -2,12 +2,23 @@
 'use client'
 
 import React from 'react'
-import { useAuth } from '@/hooks/useSupabase'
+import { useAuth } from '../hooks/useSupabase'
 import LoginForm from '@/components/Auth/LoginForm'
-import PremuniaLayout from '@/components/Layout/PremuniaLayout'
+import PremuniaLayout from '../components/Layout/PremuniaLayout'
 
 export default function Index() {
-  const { user, loading } = useAuth()
+  const { user, loading, signIn } = useAuth()
+
+  const handleLogin = async (email: string, password: string) => {
+    try {
+      const { error } = await signIn(email, password)
+      if (error) {
+        console.error('Erreur de connexion:', error)
+      }
+    } catch (error) {
+      console.error('Erreur lors de la connexion:', error)
+    }
+  }
 
   if (loading) {
     return (
@@ -22,7 +33,7 @@ export default function Index() {
   }
 
   if (!user) {
-    return <LoginForm />
+    return <LoginForm onLogin={handleLogin} />
   }
 
   return <PremuniaLayout />
