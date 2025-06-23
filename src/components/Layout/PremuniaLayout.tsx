@@ -18,13 +18,23 @@ import {
   X,
   Zap,
   Shield,
-  Crown
+  Crown,
+  Building2,
+  CheckSquare,
+  MessageSquare,
+  Workflow
 } from 'lucide-react'
 import { useAuth } from '@/hooks/useSupabase'
 import AdminDashboard from '@/components/Dashboard/AdminDashboard'
 import ProspectsWithComparator from '@/components/Prospects/ProspectsWithComparator'
 import AutomationEngine from '@/components/Marketing/AutomationEngine'
 import AdvancedReporting from '@/components/Reports/AdvancedReporting'
+import CompanyManagement from '@/components/Companies/CompanyManagement'
+import TaskManagement from '@/components/Tasks/TaskManagement'
+import EmailTemplates from '@/components/Email/EmailTemplates'
+import AnalyticsDashboard from '@/components/Analytics/AnalyticsDashboard'
+import WorkflowManagement from '@/components/Workflows/WorkflowManagement'
+import InteractionHistory from '@/components/Interactions/InteractionHistory'
 
 export default function PremuniaLayout() {
   const { user, signOut } = useAuth()
@@ -45,9 +55,45 @@ export default function PremuniaLayout() {
       roles: ['admin', 'manager', 'commercial'] 
     },
     { 
+      id: 'companies', 
+      label: 'Entreprises', 
+      icon: Building2, 
+      roles: ['admin', 'manager', 'commercial'] 
+    },
+    { 
+      id: 'tasks', 
+      label: 'Tâches', 
+      icon: CheckSquare, 
+      roles: ['admin', 'manager', 'commercial'] 
+    },
+    { 
+      id: 'interactions', 
+      label: 'Interactions', 
+      icon: MessageSquare, 
+      roles: ['admin', 'manager', 'commercial'] 
+    },
+    { 
       id: 'automation', 
       label: 'Marketing Automation', 
       icon: Mail, 
+      roles: ['admin', 'manager'] 
+    },
+    { 
+      id: 'workflows', 
+      label: 'Workflows', 
+      icon: Workflow, 
+      roles: ['admin', 'manager'] 
+    },
+    { 
+      id: 'email-templates', 
+      label: 'Templates Email', 
+      icon: Mail, 
+      roles: ['admin', 'manager'] 
+    },
+    { 
+      id: 'analytics', 
+      label: 'Analytics', 
+      icon: BarChart3, 
       roles: ['admin', 'manager'] 
     },
     { 
@@ -94,8 +140,20 @@ export default function PremuniaLayout() {
     switch (activeTab) {
       case 'prospects':
         return <ProspectsWithComparator />
+      case 'companies':
+        return <CompanyManagement />
+      case 'tasks':
+        return <TaskManagement />
+      case 'interactions':
+        return <InteractionHistory />
       case 'automation':
         return <AutomationEngine />
+      case 'workflows':
+        return <WorkflowManagement />
+      case 'email-templates':
+        return <EmailTemplates />
+      case 'analytics':
+        return <AnalyticsDashboard />
       case 'reporting':
         return <AdvancedReporting />
       case 'upload':
@@ -131,6 +189,40 @@ export default function PremuniaLayout() {
     )
   }
 
+  const getPageTitle = () => {
+    switch (activeTab) {
+      case 'dashboard': return 'Tableau de Bord Premunia'
+      case 'prospects': return 'Gestion Prospects avec Comparateur Oggo'
+      case 'companies': return 'Gestion des Entreprises'
+      case 'tasks': return 'Gestion des Tâches'
+      case 'interactions': return 'Historique des Interactions'
+      case 'automation': return 'Marketing Automation Seniors'
+      case 'workflows': return 'Workflows Automation'
+      case 'email-templates': return 'Modèles d\'Emails'
+      case 'analytics': return 'Analytics Dashboard'
+      case 'reporting': return 'Reporting Commercial Avancé'
+      case 'upload': return 'Centre d\'Import de Données'
+      default: return 'Paramètres du Système'
+    }
+  }
+
+  const getPageDescription = () => {
+    switch (activeTab) {
+      case 'dashboard': return 'Vue d\'ensemble de votre activité mutuelle santé seniors'
+      case 'prospects': return 'Gérez vos prospects avec comparaison directe des offres'
+      case 'companies': return 'Gérez votre portefeuille d\'entreprises et partenaires'
+      case 'tasks': return 'Organisez et suivez vos tâches commerciales'
+      case 'interactions': return 'Historique de toutes vos communications prospects'
+      case 'automation': return 'Automatisation marketing spécialisée pour seniors'
+      case 'workflows': return 'Automatisez vos processus commerciaux'
+      case 'email-templates': return 'Gérez vos modèles d\'emails commerciaux'
+      case 'analytics': return 'Analytics et métriques de performance détaillées'
+      case 'reporting': return 'Analytics et performance commerciale détaillée'
+      case 'upload': return 'Import depuis Excel, HubSpot, Google Sheets'
+      default: return 'Configuration et paramètres du CRM'
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex">
       {/* Sidebar */}
@@ -153,7 +245,7 @@ export default function PremuniaLayout() {
           </div>
         </div>
         
-        <nav className="p-4 space-y-2">
+        <nav className="p-4 space-y-2 max-h-[calc(100vh-200px)] overflow-y-auto">
           {filteredMenuItems.map((item) => {
             const Icon = item.icon
             return (
@@ -166,7 +258,7 @@ export default function PremuniaLayout() {
                 onClick={() => setActiveTab(item.id)}
               >
                 <Icon className="h-4 w-4" />
-                {sidebarOpen && <span className="ml-2">{item.label}</span>}
+                {sidebarOpen && <span className="ml-2 text-sm">{item.label}</span>}
               </Button>
             )
           })}
@@ -210,20 +302,10 @@ export default function PremuniaLayout() {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-3xl font-bold text-gray-800">
-                  {activeTab === 'dashboard' ? 'Tableau de Bord Premunia' : 
-                   activeTab === 'prospects' ? 'Gestion Prospects avec Comparateur Oggo' :
-                   activeTab === 'automation' ? 'Marketing Automation Seniors' :
-                   activeTab === 'reporting' ? 'Reporting Commercial Avancé' :
-                   activeTab === 'upload' ? 'Centre d\'Import de Données' :
-                   'Paramètres du Système'}
+                  {getPageTitle()}
                 </h2>
                 <p className="text-gray-600 mt-1">
-                  {activeTab === 'dashboard' ? 'Vue d\'ensemble de votre activité mutuelle santé seniors' :
-                   activeTab === 'prospects' ? 'Gérez vos prospects avec comparaison directe des offres' :
-                   activeTab === 'automation' ? 'Automatisation marketing spécialisée pour seniors' :
-                   activeTab === 'reporting' ? 'Analytics et performance commerciale détaillée' :
-                   activeTab === 'upload' ? 'Import depuis Excel, HubSpot, Google Sheets' :
-                   'Configuration et paramètres du CRM'}
+                  {getPageDescription()}
                 </p>
               </div>
               
