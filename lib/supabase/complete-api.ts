@@ -449,9 +449,19 @@ export const emailTemplatesAPI = {
   },
 
   async incrementUsage(id: string) {
+    // First get current usage count
+    const { data: current, error: fetchError } = await supabase
+      .from('email_templates')
+      .select('usage_count')
+      .eq('id', id)
+      .single()
+    
+    if (fetchError) throw fetchError
+    
+    // Then update with incremented value
     const { data, error } = await supabase
       .from('email_templates')
-      .update({ usage_count: supabase.raw('usage_count + 1') })
+      .update({ usage_count: (current.usage_count || 0) + 1 })
       .eq('id', id)
       .select()
       .single()
@@ -597,9 +607,19 @@ export const workflowsAPI = {
   },
 
   async incrementExecution(id: string) {
+    // First get current execution count
+    const { data: current, error: fetchError } = await supabase
+      .from('workflows')
+      .select('execution_count')
+      .eq('id', id)
+      .single()
+    
+    if (fetchError) throw fetchError
+    
+    // Then update with incremented value
     const { data, error } = await supabase
       .from('workflows')
-      .update({ execution_count: supabase.raw('execution_count + 1') })
+      .update({ execution_count: (current.execution_count || 0) + 1 })
       .eq('id', id)
       .select()
       .single()
