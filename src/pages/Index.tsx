@@ -2,7 +2,7 @@
 'use client'
 
 import React from 'react'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '../../hooks/useAuth'
 import LoginForm from '@/components/Auth/LoginForm'
 import PremuniaLayout from '@/components/Layout/PremuniaLayout'
 import { useToast } from '@/hooks/use-toast'
