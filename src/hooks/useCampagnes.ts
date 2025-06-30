@@ -17,7 +17,14 @@ export function useCampagnes() {
         .order('created_at', { ascending: false })
 
       if (error) throw error
-      setCampagnes(data || [])
+      
+      // Type cast the data to match our interface
+      const typedCampagnes: Campagne[] = (data || []).map(item => ({
+        ...item,
+        statut: item.statut as 'brouillon' | 'actif' | 'pause' | 'termine'
+      }))
+      
+      setCampagnes(typedCampagnes)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erreur lors du chargement des campagnes')
     } finally {

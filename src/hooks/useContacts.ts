@@ -17,7 +17,14 @@ export function useContacts() {
         .order('created_at', { ascending: false })
 
       if (error) throw error
-      setContacts(data || [])
+      
+      // Type cast the data to match our interface
+      const typedContacts: Contact[] = (data || []).map(item => ({
+        ...item,
+        statut_lead: item.statut_lead as 'Nouveau' | 'Qualifié' | 'En cours' | 'Converti' | 'Perdu'
+      }))
+      
+      setContacts(typedContacts)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erreur lors du chargement des contacts')
     } finally {
@@ -38,8 +45,15 @@ export function useContacts() {
         .single()
 
       if (error) throw error
-      setContacts(prev => [data, ...prev])
-      return { data, error: null }
+      
+      // Type cast the returned data
+      const typedContact: Contact = {
+        ...data,
+        statut_lead: data.statut_lead as 'Nouveau' | 'Qualifié' | 'En cours' | 'Converti' | 'Perdu'
+      }
+      
+      setContacts(prev => [typedContact, ...prev])
+      return { data: typedContact, error: null }
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Erreur lors de la création du contact'
       return { data: null, error: errorMsg }
@@ -56,8 +70,15 @@ export function useContacts() {
         .single()
 
       if (error) throw error
-      setContacts(prev => prev.map(c => c.id === id ? data : c))
-      return { data, error: null }
+      
+      // Type cast the returned data
+      const typedContact: Contact = {
+        ...data,
+        statut_lead: data.statut_lead as 'Nouveau' | 'Qualifié' | 'En cours' | 'Converti' | 'Perdu'
+      }
+      
+      setContacts(prev => prev.map(c => c.id === id ? typedContact : c))
+      return { data: typedContact, error: null }
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Erreur lors de la mise à jour du contact'
       return { data: null, error: errorMsg }
