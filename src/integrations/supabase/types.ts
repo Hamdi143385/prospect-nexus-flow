@@ -11,490 +11,308 @@ export type Database = {
     Tables: {
       campagnes: {
         Row: {
-          actions: Json
-          conditions: Json
-          createur_id: string | null
-          date_activation: string | null
-          date_creation: string
+          created_at: string
+          cree_par: string
+          date_debut: string | null
           date_fin: string | null
           declencheur: Json
           description: string | null
+          etapes: Json
           id: string
-          nb_clics: number
-          nb_contacts_cibles: number
-          nb_conversions: number
-          nb_emails_envoyes: number
-          nb_ouvertures: number
           nom: string
           statut: string
-          type_campagne: string
+          type: string
+          updated_at: string
         }
         Insert: {
-          actions?: Json
-          conditions?: Json
-          createur_id?: string | null
-          date_activation?: string | null
-          date_creation?: string
+          created_at?: string
+          cree_par: string
+          date_debut?: string | null
           date_fin?: string | null
           declencheur?: Json
           description?: string | null
+          etapes?: Json
           id?: string
-          nb_clics?: number
-          nb_contacts_cibles?: number
-          nb_conversions?: number
-          nb_emails_envoyes?: number
-          nb_ouvertures?: number
           nom: string
           statut?: string
-          type_campagne: string
+          type: string
+          updated_at?: string
         }
         Update: {
-          actions?: Json
-          conditions?: Json
-          createur_id?: string | null
-          date_activation?: string | null
-          date_creation?: string
+          created_at?: string
+          cree_par?: string
+          date_debut?: string | null
           date_fin?: string | null
           declencheur?: Json
           description?: string | null
+          etapes?: Json
           id?: string
-          nb_clics?: number
-          nb_contacts_cibles?: number
-          nb_conversions?: number
-          nb_emails_envoyes?: number
-          nb_ouvertures?: number
           nom?: string
           statut?: string
-          type_campagne?: string
+          type?: string
+          updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: "campagnes_createur_id_fkey"
-            columns: ["createur_id"]
+            foreignKeyName: "campagnes_cree_par_fkey"
+            columns: ["cree_par"]
             isOneToOne: false
-            referencedRelation: "utilisateurs"
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
       }
-      clients: {
-        Row: {
-          adresse: string | null
-          code_postal: string | null
-          date_creation: string | null
-          date_modification: string | null
-          email: string
-          entreprise: string | null
-          id: string
-          nom: string
-          pays: string | null
-          prenom: string
-          statut: string | null
-          telephone: string | null
-          ville: string | null
-        }
-        Insert: {
-          adresse?: string | null
-          code_postal?: string | null
-          date_creation?: string | null
-          date_modification?: string | null
-          email: string
-          entreprise?: string | null
-          id?: string
-          nom: string
-          pays?: string | null
-          prenom: string
-          statut?: string | null
-          telephone?: string | null
-          ville?: string | null
-        }
-        Update: {
-          adresse?: string | null
-          code_postal?: string | null
-          date_creation?: string | null
-          date_modification?: string | null
-          email?: string
-          entreprise?: string | null
-          id?: string
-          nom?: string
-          pays?: string | null
-          prenom?: string
-          statut?: string | null
-          telephone?: string | null
-          ville?: string | null
-        }
-        Relationships: []
-      }
       contacts: {
         Row: {
-          adresse: string | null
-          code_postal: string | null
-          conseiller_id: string | null
-          consentement_rgpd: boolean
-          date_creation: string
-          date_derniere_interaction: string | null
-          date_modification: string
-          email: string
-          entreprise: string | null
+          collaborateur_en_charge: string | null
+          created_at: string
+          date_dernier_statut: string | null
+          date_derniere_relance: string | null
+          date_naissance: string | null
+          derniere_relance_envoyee: string | null
+          email: string | null
           id: string
           nom: string
           notes: string | null
-          pays: string
-          poste: string | null
           prenom: string
-          score: number
+          score: number | null
           source: string | null
-          statut: string
+          statut_lead: string
           tags: string[] | null
           telephone: string | null
-          telephone_mobile: string | null
-          ville: string | null
+          updated_at: string
         }
         Insert: {
-          adresse?: string | null
-          code_postal?: string | null
-          conseiller_id?: string | null
-          consentement_rgpd?: boolean
-          date_creation?: string
-          date_derniere_interaction?: string | null
-          date_modification?: string
-          email: string
-          entreprise?: string | null
+          collaborateur_en_charge?: string | null
+          created_at?: string
+          date_dernier_statut?: string | null
+          date_derniere_relance?: string | null
+          date_naissance?: string | null
+          derniere_relance_envoyee?: string | null
+          email?: string | null
           id?: string
           nom: string
           notes?: string | null
-          pays: string
-          poste?: string | null
           prenom: string
-          score?: number
+          score?: number | null
           source?: string | null
-          statut?: string
+          statut_lead?: string
           tags?: string[] | null
           telephone?: string | null
-          telephone_mobile?: string | null
-          ville?: string | null
+          updated_at?: string
         }
         Update: {
-          adresse?: string | null
-          code_postal?: string | null
-          conseiller_id?: string | null
-          consentement_rgpd?: boolean
-          date_creation?: string
-          date_derniere_interaction?: string | null
-          date_modification?: string
-          email?: string
-          entreprise?: string | null
+          collaborateur_en_charge?: string | null
+          created_at?: string
+          date_dernier_statut?: string | null
+          date_derniere_relance?: string | null
+          date_naissance?: string | null
+          derniere_relance_envoyee?: string | null
+          email?: string | null
           id?: string
           nom?: string
           notes?: string | null
-          pays?: string
-          poste?: string | null
           prenom?: string
-          score?: number
+          score?: number | null
           source?: string | null
-          statut?: string
+          statut_lead?: string
           tags?: string[] | null
           telephone?: string | null
-          telephone_mobile?: string | null
-          ville?: string | null
+          updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: "contacts_conseiller_id_fkey"
-            columns: ["conseiller_id"]
+            foreignKeyName: "contacts_collaborateur_en_charge_fkey"
+            columns: ["collaborateur_en_charge"]
             isOneToOne: false
-            referencedRelation: "utilisateurs"
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
       }
       contrats: {
         Row: {
-          conditions_generales: string | null
-          conseiller_id: string | null
-          contact_id: string
-          date_creation: string
-          date_echeance: string | null
-          date_effet: string
-          date_resiliation: string | null
+          compagnie: string
+          contact_client_id: string
+          cotisation_mensuelle: number
+          created_at: string
           date_signature: string
-          document_signe_url: string | null
-          duree_mois: number | null
           id: string
-          montant_annuel: number | null
-          montant_mensuel: number | null
-          numero: string
-          proposition_id: string | null
-          statut: string
-          titre: string
-          type_contrat: string
+          numero_contrat: string
         }
         Insert: {
-          conditions_generales?: string | null
-          conseiller_id?: string | null
-          contact_id: string
-          date_creation?: string
-          date_echeance?: string | null
-          date_effet: string
-          date_resiliation?: string | null
+          compagnie: string
+          contact_client_id: string
+          cotisation_mensuelle: number
+          created_at?: string
           date_signature: string
-          document_signe_url?: string | null
-          duree_mois?: number | null
           id?: string
-          montant_annuel?: number | null
-          montant_mensuel?: number | null
-          numero: string
-          proposition_id?: string | null
-          statut?: string
-          titre: string
-          type_contrat: string
+          numero_contrat: string
         }
         Update: {
-          conditions_generales?: string | null
-          conseiller_id?: string | null
-          contact_id?: string
-          date_creation?: string
-          date_echeance?: string | null
-          date_effet?: string
-          date_resiliation?: string | null
+          compagnie?: string
+          contact_client_id?: string
+          cotisation_mensuelle?: number
+          created_at?: string
           date_signature?: string
-          document_signe_url?: string | null
-          duree_mois?: number | null
           id?: string
-          montant_annuel?: number | null
-          montant_mensuel?: number | null
-          numero?: string
-          proposition_id?: string | null
-          statut?: string
-          titre?: string
-          type_contrat?: string
+          numero_contrat?: string
         }
         Relationships: [
           {
-            foreignKeyName: "contrats_conseiller_id_fkey"
-            columns: ["conseiller_id"]
-            isOneToOne: false
-            referencedRelation: "utilisateurs"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "contrats_contact_id_fkey"
-            columns: ["contact_id"]
+            foreignKeyName: "contrats_contact_client_id_fkey"
+            columns: ["contact_client_id"]
             isOneToOne: false
             referencedRelation: "contacts"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "contrats_proposition_id_fkey"
-            columns: ["proposition_id"]
-            isOneToOne: false
-            referencedRelation: "propositions"
-            referencedColumns: ["id"]
-          },
         ]
       }
-      interactions: {
+      equipes: {
         Row: {
-          client_id: string | null
-          contenu: string | null
-          date_interaction: string | null
+          created_at: string
           id: string
-          sujet: string | null
-          type: string
+          manager_id: string | null
+          nom: string
         }
         Insert: {
-          client_id?: string | null
-          contenu?: string | null
-          date_interaction?: string | null
+          created_at?: string
           id?: string
-          sujet?: string | null
-          type: string
+          manager_id?: string | null
+          nom: string
         }
         Update: {
-          client_id?: string | null
-          contenu?: string | null
-          date_interaction?: string | null
+          created_at?: string
           id?: string
-          sujet?: string | null
-          type?: string
+          manager_id?: string | null
+          nom?: string
         }
         Relationships: [
           {
-            foreignKeyName: "interactions_client_id_fkey"
-            columns: ["client_id"]
+            foreignKeyName: "equipes_manager_id_fkey"
+            columns: ["manager_id"]
             isOneToOne: false
-            referencedRelation: "clients"
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
       }
       objectifs: {
         Row: {
-          date_creation: string
-          description: string | null
+          assigne_a: string | null
+          created_at: string
+          cree_par: string
           equipe_id: string | null
           id: string
           nom: string
           periode_debut: string
           periode_fin: string
-          statut: string
-          type_objectif: string
-          unite: string | null
-          utilisateur_id: string | null
-          valeur_actuelle: number
+          type: string
+          updated_at: string
+          valeur_actuelle: number | null
           valeur_cible: number
         }
         Insert: {
-          date_creation?: string
-          description?: string | null
+          assigne_a?: string | null
+          created_at?: string
+          cree_par: string
           equipe_id?: string | null
           id?: string
           nom: string
           periode_debut: string
           periode_fin: string
-          statut?: string
-          type_objectif: string
-          unite?: string | null
-          utilisateur_id?: string | null
-          valeur_actuelle?: number
+          type: string
+          updated_at?: string
+          valeur_actuelle?: number | null
           valeur_cible: number
         }
         Update: {
-          date_creation?: string
-          description?: string | null
+          assigne_a?: string | null
+          created_at?: string
+          cree_par?: string
           equipe_id?: string | null
           id?: string
           nom?: string
           periode_debut?: string
           periode_fin?: string
-          statut?: string
-          type_objectif?: string
-          unite?: string | null
-          utilisateur_id?: string | null
-          valeur_actuelle?: number
+          type?: string
+          updated_at?: string
+          valeur_actuelle?: number | null
           valeur_cible?: number
         }
         Relationships: [
           {
-            foreignKeyName: "objectifs_utilisateur_id_fkey"
-            columns: ["utilisateur_id"]
+            foreignKeyName: "objectifs_assigne_a_fkey"
+            columns: ["assigne_a"]
             isOneToOne: false
-            referencedRelation: "utilisateurs"
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
-        ]
-      }
-      opportunites: {
-        Row: {
-          client_id: string | null
-          date_creation: string | null
-          date_fermeture_prevue: string | null
-          description: string | null
-          etape: string | null
-          id: string
-          probabilite: number | null
-          statut: string | null
-          titre: string
-          valeur: number | null
-        }
-        Insert: {
-          client_id?: string | null
-          date_creation?: string | null
-          date_fermeture_prevue?: string | null
-          description?: string | null
-          etape?: string | null
-          id?: string
-          probabilite?: number | null
-          statut?: string | null
-          titre: string
-          valeur?: number | null
-        }
-        Update: {
-          client_id?: string | null
-          date_creation?: string | null
-          date_fermeture_prevue?: string | null
-          description?: string | null
-          etape?: string | null
-          id?: string
-          probabilite?: number | null
-          statut?: string | null
-          titre?: string
-          valeur?: number | null
-        }
-        Relationships: [
           {
-            foreignKeyName: "opportunites_client_id_fkey"
-            columns: ["client_id"]
+            foreignKeyName: "objectifs_cree_par_fkey"
+            columns: ["cree_par"]
             isOneToOne: false
-            referencedRelation: "clients"
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "objectifs_equipe_id_fkey"
+            columns: ["equipe_id"]
+            isOneToOne: false
+            referencedRelation: "equipes"
             referencedColumns: ["id"]
           },
         ]
       }
       propositions: {
         Row: {
-          conditions_particulieres: string | null
-          conseiller_id: string | null
+          compagnie: string | null
+          conseiller_id: string
           contact_id: string
-          date_creation: string
-          date_envoi: string | null
-          date_expiration: string | null
-          date_signature: string | null
-          description: string | null
-          document_url: string | null
+          created_at: string
+          date_echeance: string | null
+          date_proposition: string | null
+          details: Json | null
           id: string
-          montant_ht: number | null
-          montant_ttc: number | null
-          numero: string
-          probabilite: number
+          montant_mensuel: number | null
+          produit: string | null
           statut: string
-          taux_tva: number
-          titre: string
+          updated_at: string
         }
         Insert: {
-          conditions_particulieres?: string | null
-          conseiller_id?: string | null
+          compagnie?: string | null
+          conseiller_id: string
           contact_id: string
-          date_creation?: string
-          date_envoi?: string | null
-          date_expiration?: string | null
-          date_signature?: string | null
-          description?: string | null
-          document_url?: string | null
+          created_at?: string
+          date_echeance?: string | null
+          date_proposition?: string | null
+          details?: Json | null
           id?: string
-          montant_ht?: number | null
-          montant_ttc?: number | null
-          numero: string
-          probabilite?: number
+          montant_mensuel?: number | null
+          produit?: string | null
           statut?: string
-          taux_tva: number
-          titre: string
+          updated_at?: string
         }
         Update: {
-          conditions_particulieres?: string | null
-          conseiller_id?: string | null
+          compagnie?: string | null
+          conseiller_id?: string
           contact_id?: string
-          date_creation?: string
-          date_envoi?: string | null
-          date_expiration?: string | null
-          date_signature?: string | null
-          description?: string | null
-          document_url?: string | null
+          created_at?: string
+          date_echeance?: string | null
+          date_proposition?: string | null
+          details?: Json | null
           id?: string
-          montant_ht?: number | null
-          montant_ttc?: number | null
-          numero?: string
-          probabilite?: number
+          montant_mensuel?: number | null
+          produit?: string | null
           statut?: string
-          taux_tva?: number
-          titre?: string
+          updated_at?: string
         }
         Relationships: [
           {
             foreignKeyName: "propositions_conseiller_id_fkey"
             columns: ["conseiller_id"]
             isOneToOne: false
-            referencedRelation: "utilisateurs"
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
@@ -508,22 +326,19 @@ export type Database = {
       }
       roles: {
         Row: {
-          date_creation: string
-          description: string | null
+          created_at: string
           id: string
           nom: string
           permissions: Json
         }
         Insert: {
-          date_creation?: string
-          description?: string | null
+          created_at?: string
           id?: string
           nom: string
           permissions?: Json
         }
         Update: {
-          date_creation?: string
-          description?: string | null
+          created_at?: string
           id?: string
           nom?: string
           permissions?: Json
@@ -532,62 +347,53 @@ export type Database = {
       }
       taches: {
         Row: {
-          assignee_id: string | null
+          assigne_a: string
           contact_id: string | null
-          contrat_id: string | null
-          createur_id: string | null
+          created_at: string
+          cree_par: string
           date_completion: string | null
-          date_creation: string
           date_echeance: string | null
           description: string | null
           id: string
           priorite: string
-          proposition_id: string | null
-          rappel_avant_heures: number
-          rappel_envoye: boolean
           statut: string
           titre: string
+          updated_at: string
         }
         Insert: {
-          assignee_id?: string | null
+          assigne_a: string
           contact_id?: string | null
-          contrat_id?: string | null
-          createur_id?: string | null
+          created_at?: string
+          cree_par: string
           date_completion?: string | null
-          date_creation?: string
           date_echeance?: string | null
           description?: string | null
           id?: string
           priorite?: string
-          proposition_id?: string | null
-          rappel_avant_heures?: number
-          rappel_envoye?: boolean
           statut?: string
           titre: string
+          updated_at?: string
         }
         Update: {
-          assignee_id?: string | null
+          assigne_a?: string
           contact_id?: string | null
-          contrat_id?: string | null
-          createur_id?: string | null
+          created_at?: string
+          cree_par?: string
           date_completion?: string | null
-          date_creation?: string
           date_echeance?: string | null
           description?: string | null
           id?: string
           priorite?: string
-          proposition_id?: string | null
-          rappel_avant_heures?: number
-          rappel_envoye?: boolean
           statut?: string
           titre?: string
+          updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: "taches_assignee_id_fkey"
-            columns: ["assignee_id"]
+            foreignKeyName: "taches_assigne_a_fkey"
+            columns: ["assigne_a"]
             isOneToOne: false
-            referencedRelation: "utilisateurs"
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
@@ -598,89 +404,57 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "taches_contrat_id_fkey"
-            columns: ["contrat_id"]
+            foreignKeyName: "taches_cree_par_fkey"
+            columns: ["cree_par"]
             isOneToOne: false
-            referencedRelation: "contrats"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "taches_createur_id_fkey"
-            columns: ["createur_id"]
-            isOneToOne: false
-            referencedRelation: "utilisateurs"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "taches_proposition_id_fkey"
-            columns: ["proposition_id"]
-            isOneToOne: false
-            referencedRelation: "propositions"
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
       }
       tickets: {
         Row: {
-          assignee_id: string | null
-          canal: string
+          assigne_a: string | null
           contact_id: string
-          contrat_id: string | null
-          date_creation: string
-          date_fermeture: string | null
-          date_premiere_reponse: string | null
-          date_resolution: string | null
-          description: string
+          created_at: string
+          cree_par: string
+          description: string | null
           id: string
-          numero: string
           priorite: string
-          satisfaction_client: number | null
           statut: string
-          sujet: string
-          type_ticket: string
+          titre: string
+          updated_at: string
         }
         Insert: {
-          assignee_id?: string | null
-          canal: string
+          assigne_a?: string | null
           contact_id: string
-          contrat_id?: string | null
-          date_creation?: string
-          date_fermeture?: string | null
-          date_premiere_reponse?: string | null
-          date_resolution?: string | null
-          description: string
+          created_at?: string
+          cree_par: string
+          description?: string | null
           id?: string
-          numero: string
           priorite?: string
-          satisfaction_client?: number | null
           statut?: string
-          sujet: string
-          type_ticket: string
+          titre: string
+          updated_at?: string
         }
         Update: {
-          assignee_id?: string | null
-          canal?: string
+          assigne_a?: string | null
           contact_id?: string
-          contrat_id?: string | null
-          date_creation?: string
-          date_fermeture?: string | null
-          date_premiere_reponse?: string | null
-          date_resolution?: string | null
-          description?: string
+          created_at?: string
+          cree_par?: string
+          description?: string | null
           id?: string
-          numero?: string
           priorite?: string
-          satisfaction_client?: number | null
           statut?: string
-          sujet?: string
-          type_ticket?: string
+          titre?: string
+          updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: "tickets_assignee_id_fkey"
-            columns: ["assignee_id"]
+            foreignKeyName: "tickets_assigne_a_fkey"
+            columns: ["assigne_a"]
             isOneToOne: false
-            referencedRelation: "utilisateurs"
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
@@ -691,63 +465,52 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "tickets_contrat_id_fkey"
-            columns: ["contrat_id"]
+            foreignKeyName: "tickets_cree_par_fkey"
+            columns: ["cree_par"]
             isOneToOne: false
-            referencedRelation: "contrats"
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
       }
-      utilisateurs: {
+      users: {
         Row: {
-          avatar_url: string | null
-          date_creation: string
-          date_modification: string
-          derniere_connexion: string | null
+          created_at: string
           email: string
+          equipe_id: string | null
           id: string
-          nom: string
-          objectifs: Json
-          preferences: Json
-          prenom: string
-          role_id: string
-          statut: string
-          telephone: string | null
+          nom_complet: string
+          role_id: string | null
+          statut: string | null
         }
         Insert: {
-          avatar_url?: string | null
-          date_creation?: string
-          date_modification?: string
-          derniere_connexion?: string | null
+          created_at?: string
           email: string
+          equipe_id?: string | null
           id?: string
-          nom: string
-          objectifs?: Json
-          preferences?: Json
-          prenom: string
-          role_id: string
-          statut?: string
-          telephone?: string | null
+          nom_complet: string
+          role_id?: string | null
+          statut?: string | null
         }
         Update: {
-          avatar_url?: string | null
-          date_creation?: string
-          date_modification?: string
-          derniere_connexion?: string | null
+          created_at?: string
           email?: string
+          equipe_id?: string | null
           id?: string
-          nom?: string
-          objectifs?: Json
-          preferences?: Json
-          prenom?: string
-          role_id?: string
-          statut?: string
-          telephone?: string | null
+          nom_complet?: string
+          role_id?: string | null
+          statut?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "utilisateurs_role_id_fkey"
+            foreignKeyName: "fk_users_equipe"
+            columns: ["equipe_id"]
+            isOneToOne: false
+            referencedRelation: "equipes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "users_role_id_fkey"
             columns: ["role_id"]
             isOneToOne: false
             referencedRelation: "roles"
@@ -757,340 +520,64 @@ export type Database = {
       }
       workflows: {
         Row: {
-          conditions_sortie: Json
-          createur_id: string | null
-          date_activation: string | null
-          date_creation: string
-          declencheur: Json
-          description: string | null
-          etapes: Json
-          id: string
-          nb_contacts_actifs: number
-          nb_contacts_termines: number
-          nom: string
-          statut: string
-        }
-        Insert: {
-          conditions_sortie?: Json
-          createur_id?: string | null
-          date_activation?: string | null
-          date_creation?: string
-          declencheur?: Json
-          description?: string | null
-          etapes?: Json
-          id?: string
-          nb_contacts_actifs?: number
-          nb_contacts_termines?: number
-          nom: string
-          statut?: string
-        }
-        Update: {
-          conditions_sortie?: Json
-          createur_id?: string | null
-          date_activation?: string | null
-          date_creation?: string
-          declencheur?: Json
-          description?: string | null
-          etapes?: Json
-          id?: string
-          nb_contacts_actifs?: number
-          nb_contacts_termines?: number
-          nom?: string
-          statut?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "workflows_createur_id_fkey"
-            columns: ["createur_id"]
-            isOneToOne: false
-            referencedRelation: "utilisateurs"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      wrappers_fdw_stats: {
-        Row: {
-          bytes_in: number | null
-          bytes_out: number | null
-          create_times: number | null
+          campagne_id: string
+          contact_id: string
           created_at: string
-          fdw_name: string
-          metadata: Json | null
-          rows_in: number | null
-          rows_out: number | null
+          date_prochaine_action: string | null
+          donnees_contexte: Json | null
+          etape_courante: number | null
+          id: string
+          statut: string
           updated_at: string
         }
         Insert: {
-          bytes_in?: number | null
-          bytes_out?: number | null
-          create_times?: number | null
+          campagne_id: string
+          contact_id: string
           created_at?: string
-          fdw_name: string
-          metadata?: Json | null
-          rows_in?: number | null
-          rows_out?: number | null
+          date_prochaine_action?: string | null
+          donnees_contexte?: Json | null
+          etape_courante?: number | null
+          id?: string
+          statut?: string
           updated_at?: string
         }
         Update: {
-          bytes_in?: number | null
-          bytes_out?: number | null
-          create_times?: number | null
+          campagne_id?: string
+          contact_id?: string
           created_at?: string
-          fdw_name?: string
-          metadata?: Json | null
-          rows_in?: number | null
-          rows_out?: number | null
+          date_prochaine_action?: string | null
+          donnees_contexte?: Json | null
+          etape_courante?: number | null
+          id?: string
+          statut?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "workflows_campagne_id_fkey"
+            columns: ["campagne_id"]
+            isOneToOne: false
+            referencedRelation: "campagnes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflows_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      airtable_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
-      airtable_fdw_meta: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          name: string
-          version: string
-          author: string
-          website: string
-        }[]
-      }
-      airtable_fdw_validator: {
-        Args: { options: string[]; catalog: unknown }
-        Returns: undefined
-      }
-      auth0_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
-      auth0_fdw_meta: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          name: string
-          version: string
-          author: string
-          website: string
-        }[]
-      }
-      auth0_fdw_validator: {
-        Args: { options: string[]; catalog: unknown }
-        Returns: undefined
-      }
-      big_query_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
-      big_query_fdw_meta: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          name: string
-          version: string
-          author: string
-          website: string
-        }[]
-      }
-      big_query_fdw_validator: {
-        Args: { options: string[]; catalog: unknown }
-        Returns: undefined
-      }
-      click_house_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
-      click_house_fdw_meta: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          name: string
-          version: string
-          author: string
-          website: string
-        }[]
-      }
-      click_house_fdw_validator: {
-        Args: { options: string[]; catalog: unknown }
-        Returns: undefined
-      }
-      cognito_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
-      cognito_fdw_meta: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          name: string
-          version: string
-          author: string
-          website: string
-        }[]
-      }
-      cognito_fdw_validator: {
-        Args: { options: string[]; catalog: unknown }
-        Returns: undefined
-      }
-      firebase_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
-      firebase_fdw_meta: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          name: string
-          version: string
-          author: string
-          website: string
-        }[]
-      }
-      firebase_fdw_validator: {
-        Args: { options: string[]; catalog: unknown }
-        Returns: undefined
-      }
-      get_user_role: {
-        Args: { user_id: string }
-        Returns: string
-      }
-      has_role: {
-        Args: { required_role: string }
-        Returns: boolean
-      }
-      hello_world_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
-      hello_world_fdw_meta: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          name: string
-          version: string
-          author: string
-          website: string
-        }[]
-      }
-      hello_world_fdw_validator: {
-        Args: { options: string[]; catalog: unknown }
-        Returns: undefined
-      }
-      logflare_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
-      logflare_fdw_meta: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          name: string
-          version: string
-          author: string
-          website: string
-        }[]
-      }
-      logflare_fdw_validator: {
-        Args: { options: string[]; catalog: unknown }
-        Returns: undefined
-      }
-      mssql_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
-      mssql_fdw_meta: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          name: string
-          version: string
-          author: string
-          website: string
-        }[]
-      }
-      mssql_fdw_validator: {
-        Args: { options: string[]; catalog: unknown }
-        Returns: undefined
-      }
-      redis_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
-      redis_fdw_meta: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          name: string
-          version: string
-          author: string
-          website: string
-        }[]
-      }
-      redis_fdw_validator: {
-        Args: { options: string[]; catalog: unknown }
-        Returns: undefined
-      }
-      s3_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
-      s3_fdw_meta: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          name: string
-          version: string
-          author: string
-          website: string
-        }[]
-      }
-      s3_fdw_validator: {
-        Args: { options: string[]; catalog: unknown }
-        Returns: undefined
-      }
-      stripe_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
-      stripe_fdw_meta: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          name: string
-          version: string
-          author: string
-          website: string
-        }[]
-      }
-      stripe_fdw_validator: {
-        Args: { options: string[]; catalog: unknown }
-        Returns: undefined
-      }
-      wasm_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
-      wasm_fdw_meta: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          name: string
-          version: string
-          author: string
-          website: string
-        }[]
-      }
-      wasm_fdw_validator: {
-        Args: { options: string[]; catalog: unknown }
-        Returns: undefined
-      }
+      [_ in never]: never
     }
     Enums: {
-      activity_type: "call" | "email" | "meeting" | "note"
-      customer_status: "active" | "inactive" | "prospect"
-      lead_status:
-        | "new"
-        | "contacted"
-        | "qualified"
-        | "proposal"
-        | "won"
-        | "lost"
-      task_priority: "low" | "medium" | "high"
-      task_status: "pending" | "in_progress" | "completed"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1205,12 +692,6 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {
-      activity_type: ["call", "email", "meeting", "note"],
-      customer_status: ["active", "inactive", "prospect"],
-      lead_status: ["new", "contacted", "qualified", "proposal", "won", "lost"],
-      task_priority: ["low", "medium", "high"],
-      task_status: ["pending", "in_progress", "completed"],
-    },
+    Enums: {},
   },
 } as const
