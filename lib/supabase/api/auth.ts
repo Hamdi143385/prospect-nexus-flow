@@ -1,54 +1,87 @@
 
 import { supabase } from '../enhanced-client'
-import type { User } from './types'
+import type { User, Role } from './types'
 
 export const authAPI = {
   async login(email: string, password: string) {
-    // Use standard auth login instead of RPC function
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    })
+    // Vérifier d'abord si l'utilisateur existe dans notre table users
+    const { data: userData, error: userError } = await supabase
+      .from('users')
+      .select(`
+        *,
+        roles:role_id (
+          nom
+        )
+      `)
+      .eq('email', email)
+      .eq('statut', 'actif')
+      .single()
     
-    if (error) throw error
-    return data.user
+    if (userError || !userData) {
+      throw new Error('Utilisateur non trouvé ou inactif')
+    }
+    
+    // Pour la démo, on accepte le mot de passe basé sur le rôle
+    const validPasswords: { [key: string]: string } = {
+      'admin@premunia.fr': 'admin123',
+      'manager@premunia.fr': 'manager123',
+      'commercial@premunia.fr': 'commercial123'
+    }
+    
+    if (validPasswords[email] !== password) {
+      throw new Error('Mot de passe incorrect')
+    }
+    
+    return userData
   },
 
   async getCurrentUser(userId: string) {
     const { data, error } = await supabase
       .from('users')
-      .select('*')
+      .select(`
+        *,
+        roles:role_id (
+          nom
+        )
+      `)
       .eq('id', userId)
+      .eq('statut', 'actif')
       .single()
     
     if (error) throw error
     
-    // Transform database user to application User type
+    // Transformer les données pour correspondre à l'interface User
     if (data) {
       const user: User = {
         id: data.id,
         email: data.email,
-        name: data.nom_complet,
-        role: 'commercial', // Default role, should be determined from role_id
-        avatar_url: undefined,
-        is_active: data.statut === 'actif',
-        objectives: undefined,
-        team_id: data.equipe_id || undefined,
-        last_login: undefined,
+        nom_complet: data.nom_complet,
+        role_id: data.role_id,
+        equipe_id: data.equipe_id,
+        statut: data.statut,
         created_at: data.created_at,
-        updated_at: data.created_at // Use created_at as fallback since updated_at doesn't exist
+        role_nom: data.roles?.nom || 'commercial',
+        role: data.roles?.nom || 'commercial'
       }
       return user
     }
     
-    throw new Error('User not found')
+    throw new Error('Utilisateur non trouvé')
   },
 
   async updateLastLogin(userId: string) {
-    // Since last_login doesn't exist in the users table schema,
-    // we'll update a custom field or skip this for now
-    console.log(`Would update last login for user ${userId}`)
-    // Could be implemented by adding last_login field to users table
-    // or tracking in a separate table
+    // Pour l'instant, on log juste l'information
+    console.log(`Connexion utilisateur ${userId}`)
+    // On pourrait ajouter un champ last_login à la table users plus tard
+  },
+
+  async getAllRoles() {
+    const { data, error } = await supabase
+      .from('roles')
+      .select('*')
+      .order('nom')
+    
+    if (error) throw error
+    return data as Role[]
   }
 }

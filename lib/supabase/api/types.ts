@@ -1,101 +1,70 @@
 
-// Shared types for all API modules
 export interface User {
   id: string
   email: string
-  name: string
-  role: 'admin' | 'manager' | 'commercial'
-  avatar_url?: string
-  is_active: boolean
-  objectives?: any
-  team_id?: string
-  last_login?: string
+  nom_complet: string
+  role_id: string
+  equipe_id?: string
+  statut: 'actif' | 'inactif'
   created_at: string
-  updated_at: string
+  // Propriétés calculées depuis les relations
+  role?: string
+  role_nom?: string
 }
 
-export interface Company {
+export interface Role {
   id: string
-  name: string
-  sector?: string
-  size?: 'Startup' | 'PME' | 'ETI' | 'Grande Entreprise'
-  revenue?: number
-  contacts_count: number
-  status: 'Prospect' | 'Client' | 'Partenaire' | 'Inactif'
-  location?: string
-  phone?: string
+  nom: string
+  permissions: any
+  created_at: string
+}
+
+export interface Contact {
+  id: string
+  nom: string
+  prenom: string
   email?: string
-  website?: string
-  created_year?: number
-  siret?: string
+  telephone?: string
+  date_naissance?: string
+  statut_lead: 'Nouveau' | 'Qualifié' | 'En cours' | 'Converti' | 'Perdu'
+  score: number
+  source?: string
+  collaborateur_en_charge?: string
   notes?: string
-  assigned_to?: string
-  created_at: string
-  updated_at: string
-}
-
-export interface Task {
-  id: string
-  title: string
-  description?: string
-  type: 'call' | 'email' | 'meeting' | 'demo' | 'follow_up' | 'admin'
-  priority: 'low' | 'medium' | 'high' | 'urgent'
-  status: 'pending' | 'in_progress' | 'completed' | 'cancelled'
-  due_date?: string
-  estimated_duration?: number
-  actual_duration?: number
-  assigned_to?: string
-  created_by?: string
-  prospect_id?: string
-  company_id?: string
   tags?: string[]
-  completed_at?: string
+  derniere_relance_envoyee?: string
+  date_derniere_relance?: string
+  date_dernier_statut?: string
   created_at: string
   updated_at: string
 }
 
-export interface EmailTemplate {
+export interface Campagne {
   id: string
-  name: string
-  subject: string
-  content: string
-  template_type: string
-  category?: string
-  variables?: string[]
-  is_active: boolean
-  usage_count: number
-  created_by?: string
-  created_at: string
-  updated_at: string
-}
-
-export interface Workflow {
-  id: string
-  name: string
+  nom: string
   description?: string
-  trigger_type: string
-  trigger_conditions?: any
-  is_active: boolean
-  execution_count: number
-  success_rate?: number
-  created_by?: string
+  type: string
+  statut: 'brouillon' | 'actif' | 'pause' | 'termine'
+  declencheur: any
+  etapes: any[]
+  date_debut?: string
+  date_fin?: string
+  cree_par: string
   created_at: string
   updated_at: string
 }
 
-export interface InteractionHistory {
+export interface Tache {
   id: string
-  prospect_id?: string
-  company_id?: string
-  user_id?: string
-  type: 'call' | 'email' | 'meeting' | 'sms' | 'whatsapp' | 'note'
-  direction: 'inbound' | 'outbound'
-  subject?: string
-  content?: string
-  duration?: number
-  outcome?: string
-  next_action?: string
-  attachments?: any[]
-  metadata?: any
+  titre: string
+  description?: string
+  statut: 'a_faire' | 'en_cours' | 'termine' | 'annule'
+  priorite: 'basse' | 'normale' | 'haute' | 'urgente'
+  date_echeance?: string
+  date_completion?: string
+  assigne_a?: string
+  cree_par?: string
+  contact_id?: string
   created_at: string
+  updated_at: string
 }

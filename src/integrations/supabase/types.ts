@@ -11,46 +11,46 @@ export type Database = {
     Tables: {
       campagnes: {
         Row: {
-          created_at: string
-          cree_par: string
+          created_at: string | null
+          cree_par: string | null
           date_debut: string | null
           date_fin: string | null
-          declencheur: Json
+          declencheur: Json | null
           description: string | null
-          etapes: Json
+          etapes: Json | null
           id: string
           nom: string
-          statut: string
+          statut: string | null
           type: string
-          updated_at: string
+          updated_at: string | null
         }
         Insert: {
-          created_at?: string
-          cree_par: string
+          created_at?: string | null
+          cree_par?: string | null
           date_debut?: string | null
           date_fin?: string | null
-          declencheur?: Json
+          declencheur?: Json | null
           description?: string | null
-          etapes?: Json
+          etapes?: Json | null
           id?: string
           nom: string
-          statut?: string
+          statut?: string | null
           type: string
-          updated_at?: string
+          updated_at?: string | null
         }
         Update: {
-          created_at?: string
-          cree_par?: string
+          created_at?: string | null
+          cree_par?: string | null
           date_debut?: string | null
           date_fin?: string | null
-          declencheur?: Json
+          declencheur?: Json | null
           description?: string | null
-          etapes?: Json
+          etapes?: Json | null
           id?: string
           nom?: string
-          statut?: string
+          statut?: string | null
           type?: string
-          updated_at?: string
+          updated_at?: string | null
         }
         Relationships: [
           {
@@ -65,7 +65,7 @@ export type Database = {
       contacts: {
         Row: {
           collaborateur_en_charge: string | null
-          created_at: string
+          created_at: string | null
           date_dernier_statut: string | null
           date_derniere_relance: string | null
           date_naissance: string | null
@@ -77,14 +77,14 @@ export type Database = {
           prenom: string
           score: number | null
           source: string | null
-          statut_lead: string
+          statut_lead: string | null
           tags: string[] | null
           telephone: string | null
-          updated_at: string
+          updated_at: string | null
         }
         Insert: {
           collaborateur_en_charge?: string | null
-          created_at?: string
+          created_at?: string | null
           date_dernier_statut?: string | null
           date_derniere_relance?: string | null
           date_naissance?: string | null
@@ -96,14 +96,14 @@ export type Database = {
           prenom: string
           score?: number | null
           source?: string | null
-          statut_lead?: string
+          statut_lead?: string | null
           tags?: string[] | null
           telephone?: string | null
-          updated_at?: string
+          updated_at?: string | null
         }
         Update: {
           collaborateur_en_charge?: string | null
-          created_at?: string
+          created_at?: string | null
           date_dernier_statut?: string | null
           date_derniere_relance?: string | null
           date_naissance?: string | null
@@ -115,10 +115,10 @@ export type Database = {
           prenom?: string
           score?: number | null
           source?: string | null
-          statut_lead?: string
+          statut_lead?: string | null
           tags?: string[] | null
           telephone?: string | null
-          updated_at?: string
+          updated_at?: string | null
         }
         Relationships: [
           {
@@ -130,263 +130,90 @@ export type Database = {
           },
         ]
       }
-      contrats: {
-        Row: {
-          compagnie: string
-          contact_client_id: string
-          cotisation_mensuelle: number
-          created_at: string
-          date_signature: string
-          id: string
-          numero_contrat: string
-        }
-        Insert: {
-          compagnie: string
-          contact_client_id: string
-          cotisation_mensuelle: number
-          created_at?: string
-          date_signature: string
-          id?: string
-          numero_contrat: string
-        }
-        Update: {
-          compagnie?: string
-          contact_client_id?: string
-          cotisation_mensuelle?: number
-          created_at?: string
-          date_signature?: string
-          id?: string
-          numero_contrat?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "contrats_contact_client_id_fkey"
-            columns: ["contact_client_id"]
-            isOneToOne: false
-            referencedRelation: "contacts"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       equipes: {
         Row: {
-          created_at: string
+          created_at: string | null
           id: string
           manager_id: string | null
           nom: string
         }
         Insert: {
-          created_at?: string
+          created_at?: string | null
           id?: string
           manager_id?: string | null
           nom: string
         }
         Update: {
-          created_at?: string
+          created_at?: string | null
           id?: string
           manager_id?: string | null
           nom?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "equipes_manager_id_fkey"
-            columns: ["manager_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      objectifs: {
-        Row: {
-          assigne_a: string | null
-          created_at: string
-          cree_par: string
-          equipe_id: string | null
-          id: string
-          nom: string
-          periode_debut: string
-          periode_fin: string
-          type: string
-          updated_at: string
-          valeur_actuelle: number | null
-          valeur_cible: number
-        }
-        Insert: {
-          assigne_a?: string | null
-          created_at?: string
-          cree_par: string
-          equipe_id?: string | null
-          id?: string
-          nom: string
-          periode_debut: string
-          periode_fin: string
-          type: string
-          updated_at?: string
-          valeur_actuelle?: number | null
-          valeur_cible: number
-        }
-        Update: {
-          assigne_a?: string | null
-          created_at?: string
-          cree_par?: string
-          equipe_id?: string | null
-          id?: string
-          nom?: string
-          periode_debut?: string
-          periode_fin?: string
-          type?: string
-          updated_at?: string
-          valeur_actuelle?: number | null
-          valeur_cible?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "objectifs_assigne_a_fkey"
-            columns: ["assigne_a"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "objectifs_cree_par_fkey"
-            columns: ["cree_par"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "objectifs_equipe_id_fkey"
-            columns: ["equipe_id"]
-            isOneToOne: false
-            referencedRelation: "equipes"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      propositions: {
-        Row: {
-          compagnie: string | null
-          conseiller_id: string
-          contact_id: string
-          created_at: string
-          date_echeance: string | null
-          date_proposition: string | null
-          details: Json | null
-          id: string
-          montant_mensuel: number | null
-          produit: string | null
-          statut: string
-          updated_at: string
-        }
-        Insert: {
-          compagnie?: string | null
-          conseiller_id: string
-          contact_id: string
-          created_at?: string
-          date_echeance?: string | null
-          date_proposition?: string | null
-          details?: Json | null
-          id?: string
-          montant_mensuel?: number | null
-          produit?: string | null
-          statut?: string
-          updated_at?: string
-        }
-        Update: {
-          compagnie?: string | null
-          conseiller_id?: string
-          contact_id?: string
-          created_at?: string
-          date_echeance?: string | null
-          date_proposition?: string | null
-          details?: Json | null
-          id?: string
-          montant_mensuel?: number | null
-          produit?: string | null
-          statut?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "propositions_conseiller_id_fkey"
-            columns: ["conseiller_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "propositions_contact_id_fkey"
-            columns: ["contact_id"]
-            isOneToOne: false
-            referencedRelation: "contacts"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       roles: {
         Row: {
-          created_at: string
+          created_at: string | null
           id: string
           nom: string
-          permissions: Json
+          permissions: Json | null
         }
         Insert: {
-          created_at?: string
+          created_at?: string | null
           id?: string
           nom: string
-          permissions?: Json
+          permissions?: Json | null
         }
         Update: {
-          created_at?: string
+          created_at?: string | null
           id?: string
           nom?: string
-          permissions?: Json
+          permissions?: Json | null
         }
         Relationships: []
       }
       taches: {
         Row: {
-          assigne_a: string
+          assigne_a: string | null
           contact_id: string | null
-          created_at: string
-          cree_par: string
+          created_at: string | null
+          cree_par: string | null
           date_completion: string | null
           date_echeance: string | null
           description: string | null
           id: string
-          priorite: string
-          statut: string
+          priorite: string | null
+          statut: string | null
           titre: string
-          updated_at: string
+          updated_at: string | null
         }
         Insert: {
-          assigne_a: string
+          assigne_a?: string | null
           contact_id?: string | null
-          created_at?: string
-          cree_par: string
+          created_at?: string | null
+          cree_par?: string | null
           date_completion?: string | null
           date_echeance?: string | null
           description?: string | null
           id?: string
-          priorite?: string
-          statut?: string
+          priorite?: string | null
+          statut?: string | null
           titre: string
-          updated_at?: string
+          updated_at?: string | null
         }
         Update: {
-          assigne_a?: string
+          assigne_a?: string | null
           contact_id?: string | null
-          created_at?: string
-          cree_par?: string
+          created_at?: string | null
+          cree_par?: string | null
           date_completion?: string | null
           date_echeance?: string | null
           description?: string | null
           id?: string
-          priorite?: string
-          statut?: string
+          priorite?: string | null
+          statut?: string | null
           titre?: string
-          updated_at?: string
+          updated_at?: string | null
         }
         Relationships: [
           {
@@ -412,70 +239,9 @@ export type Database = {
           },
         ]
       }
-      tickets: {
-        Row: {
-          assigne_a: string | null
-          contact_id: string
-          created_at: string
-          cree_par: string
-          description: string | null
-          id: string
-          priorite: string
-          statut: string
-          titre: string
-          updated_at: string
-        }
-        Insert: {
-          assigne_a?: string | null
-          contact_id: string
-          created_at?: string
-          cree_par: string
-          description?: string | null
-          id?: string
-          priorite?: string
-          statut?: string
-          titre: string
-          updated_at?: string
-        }
-        Update: {
-          assigne_a?: string | null
-          contact_id?: string
-          created_at?: string
-          cree_par?: string
-          description?: string | null
-          id?: string
-          priorite?: string
-          statut?: string
-          titre?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "tickets_assigne_a_fkey"
-            columns: ["assigne_a"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "tickets_contact_id_fkey"
-            columns: ["contact_id"]
-            isOneToOne: false
-            referencedRelation: "contacts"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "tickets_cree_par_fkey"
-            columns: ["cree_par"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       users: {
         Row: {
-          created_at: string
+          created_at: string | null
           email: string
           equipe_id: string | null
           id: string
@@ -484,7 +250,7 @@ export type Database = {
           statut: string | null
         }
         Insert: {
-          created_at?: string
+          created_at?: string | null
           email: string
           equipe_id?: string | null
           id?: string
@@ -493,7 +259,7 @@ export type Database = {
           statut?: string | null
         }
         Update: {
-          created_at?: string
+          created_at?: string | null
           email?: string
           equipe_id?: string | null
           id?: string
@@ -503,7 +269,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "fk_users_equipe"
+            foreignKeyName: "users_equipe_id_fkey"
             columns: ["equipe_id"]
             isOneToOne: false
             referencedRelation: "equipes"
@@ -514,57 +280,6 @@ export type Database = {
             columns: ["role_id"]
             isOneToOne: false
             referencedRelation: "roles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      workflows: {
-        Row: {
-          campagne_id: string
-          contact_id: string
-          created_at: string
-          date_prochaine_action: string | null
-          donnees_contexte: Json | null
-          etape_courante: number | null
-          id: string
-          statut: string
-          updated_at: string
-        }
-        Insert: {
-          campagne_id: string
-          contact_id: string
-          created_at?: string
-          date_prochaine_action?: string | null
-          donnees_contexte?: Json | null
-          etape_courante?: number | null
-          id?: string
-          statut?: string
-          updated_at?: string
-        }
-        Update: {
-          campagne_id?: string
-          contact_id?: string
-          created_at?: string
-          date_prochaine_action?: string | null
-          donnees_contexte?: Json | null
-          etape_courante?: number | null
-          id?: string
-          statut?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "workflows_campagne_id_fkey"
-            columns: ["campagne_id"]
-            isOneToOne: false
-            referencedRelation: "campagnes"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "workflows_contact_id_fkey"
-            columns: ["contact_id"]
-            isOneToOne: false
-            referencedRelation: "contacts"
             referencedColumns: ["id"]
           },
         ]

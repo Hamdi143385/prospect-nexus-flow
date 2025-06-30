@@ -4,7 +4,7 @@ import { Toaster } from '@/components/ui/toaster'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Dashboard from '@/pages/Dashboard'
 import LoginPage from '@/pages/LoginPage'
-import { useAuth } from '@/hooks/useSupabase'
+import { useAuth } from '@/hooks/useAuth'
 import { Loader2 } from 'lucide-react'
 
 const queryClient = new QueryClient()

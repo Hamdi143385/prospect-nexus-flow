@@ -29,15 +29,14 @@ export function useAuth() {
       setLoading(true)
       setError(null)
       
-      const authUser = await authAPI.login(email, password)
+      const userData = await authAPI.login(email, password)
       
-      if (authUser && authUser.id) {
-        const userData = await authAPI.getCurrentUser(authUser.id)
+      if (userData && userData.id) {
         setUser(userData)
         localStorage.setItem('premunia_user', JSON.stringify(userData))
         
         // Mettre à jour la dernière connexion
-        await authAPI.updateLastLogin(authUser.id)
+        await authAPI.updateLastLogin(userData.id)
         
         return { data: userData, error: null }
       } else {
@@ -45,7 +44,7 @@ export function useAuth() {
         return { data: null, error: 'Erreur lors de la connexion' }
       }
     } catch (error) {
-      const errorMessage = 'Email ou mot de passe incorrect'
+      const errorMessage = error instanceof Error ? error.message : 'Email ou mot de passe incorrect'
       setError(errorMessage)
       return { data: null, error: errorMessage }
     } finally {

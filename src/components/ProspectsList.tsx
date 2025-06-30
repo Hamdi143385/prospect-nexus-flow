@@ -1,22 +1,11 @@
 
-import { useState } from 'react'
-import { useProspects } from '@/hooks/useSupabase'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { useContacts } from '@/hooks/useContacts'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
-import { Loader2, Plus, User, Phone, Mail } from 'lucide-react'
-import CreateProspectForm from './CreateProspectForm'
+import { Loader2, User, Phone, Mail } from 'lucide-react'
 
 export default function ProspectsList() {
-  const { prospects, loading } = useProspects()
-  const [showCreateForm, setShowCreateForm] = useState(false)
-  const [searchTerm, setSearchTerm] = useState('')
-
-  const filteredProspects = prospects?.filter(prospect =>
-    prospect.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    prospect.email.toLowerCase().includes(searchTerm.toLowerCase())
-  ) || []
+  const { contacts, loading } = useContacts()
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -37,67 +26,54 @@ export default function ProspectsList() {
     )
   }
 
-  return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center gap-4">
-        <Input
-          placeholder="Rechercher un prospect..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-sm"
-        />
-        <Button onClick={() => setShowCreateForm(true)}>
-          <Plus className="h-4 w-4 mr-2" />
-          Nouveau prospect
-        </Button>
+  if (!contacts || contacts.length === 0) {
+    return (
+      <div className="text-center py-8 text-gray-500">
+        Aucun contact trouvé
       </div>
+    )
+  }
 
-      {showCreateForm && (
-        <CreateProspectForm onClose={() => setShowCreateForm(false)} />
-      )}
-
-      <div className="grid gap-4">
-        {filteredProspects.map((prospect) => (
-          <Card key={prospect.id}>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="bg-gray-100 p-2 rounded-full">
-                    <User className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold">{prospect.name}</h3>
-                    <div className="flex items-center gap-4 text-sm text-gray-600">
+  return (
+    <div className="grid gap-4">
+      {contacts.map((contact) => (
+        <Card key={contact.id}>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="bg-blue-100 p-2 rounded-full">
+                  <User className="h-4 w-4 text-blue-600" />
+                </div>
+                <div>
+                  <h3 className="font-semibold">{contact.prenom} {contact.nom}</h3>
+                  <div className="flex items-center gap-4 text-sm text-gray-600">
+                    {contact.email && (
                       <div className="flex items-center gap-1">
                         <Mail className="h-3 w-3" />
-                        {prospect.email}
+                        {contact.email}
                       </div>
+                    )}
+                    {contact.telephone && (
                       <div className="flex items-center gap-1">
                         <Phone className="h-3 w-3" />
-                        {prospect.phone}
+                        {contact.telephone}
                       </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Badge className={getStatusColor(prospect.status)}>
-                    {prospect.status}
-                  </Badge>
-                  <div className="text-sm text-gray-500">
-                    Score: {prospect.score}
+                    )}
                   </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {filteredProspects.length === 0 && (
-        <div className="text-center py-8 text-gray-500">
-          Aucun prospect trouvé
-        </div>
-      )}
+              <div className="flex items-center gap-2">
+                <Badge className={getStatusColor(contact.statut_lead)}>
+                  {contact.statut_lead}
+                </Badge>
+                <div className="text-sm text-gray-500">
+                  Score: {contact.score}
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   )
 }
