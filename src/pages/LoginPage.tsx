@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useAuth } from '@/hooks/useSupabase'
+import { useAuth } from '@/hooks/useAuth'
 import { Loader2 } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
 
@@ -24,7 +24,7 @@ export default function LoginPage() {
       if (error) {
         toast({
           title: "Erreur de connexion",
-          description: error.message,
+          description: error,
           variant: "destructive"
         })
       }
@@ -83,6 +83,12 @@ export default function LoginPage() {
               )}
             </Button>
           </form>
+          <div className="mt-4 text-sm text-gray-600">
+            <p><strong>Comptes de test :</strong></p>
+            <p>Admin: admin@premunia.fr / admin123</p>
+            <p>Manager: manager@premunia.fr / manager123</p>
+            <p>Commercial: commercial@premunia.fr / commercial123</p>
+          </div>
         </CardContent>
       </Card>
     </div>

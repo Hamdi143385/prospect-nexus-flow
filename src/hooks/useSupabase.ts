@@ -315,93 +315,18 @@ export function useProspects() {
   }
 }
 
-// Hook pour les opportunités (mapped to propositions table)
+// Hook pour les opportunités - simplified since we don't have propositions table
 export function useOpportunities() {
   const [opportunities, setOpportunities] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-  const { user } = useAuth()
+  const [loading, setLoading] = useState(false)
 
-  const loadOpportunities = async () => {
-    if (!user) return
-    
-    try {
-      setLoading(true)
-      const { data, error } = await supabase
-        .from('propositions')
-        .select(`
-          *,
-          contacts (*)
-        `)
-        .order('created_at', { ascending: false })
-      
-      if (error) throw error
-      setOpportunities(data || [])
-    } catch (error) {
-      console.error('Erreur lors du chargement des opportunités:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    if (user) {
-      loadOpportunities()
-    }
-  }, [user])
-
-  const createOpportunity = async (opportunity: Omit<Opportunity, 'id' | 'created_at' | 'updated_at'>) => {
-    try {
-      const propositionData = {
-        contact_id: opportunity.prospect_id,
-        montant_mensuel: opportunity.value,
-        statut: 'brouillon',
-        conseiller_id: opportunity.created_by,
-        produit: opportunity.title
-      }
-
-      const { data, error } = await supabase
-        .from('propositions')
-        .insert([propositionData])
-        .select()
-        .single()
-      
-      if (error) throw error
-      await loadOpportunities()
-      return { data, error: null }
-    } catch (error) {
-      console.error('Erreur lors de la création de l\'opportunité:', error)
-      return { data: null, error }
-    }
-  }
-
-  const updateOpportunity = async (id: string, updates: Partial<Opportunity>) => {
-    try {
-      const propositionUpdates: any = {}
-      if (updates.title) propositionUpdates.produit = updates.title
-      if (updates.value) propositionUpdates.montant_mensuel = updates.value
-
-      const { data, error } = await supabase
-        .from('propositions')
-        .update(propositionUpdates)
-        .eq('id', id)
-        .select()
-        .single()
-      
-      if (error) throw error
-      await loadOpportunities()
-      return { data, error: null }
-    } catch (error) {
-      console.error('Erreur lors de la mise à jour de l\'opportunité:', error)
-      return { data: null, error }
-    }
-  }
-
+  // Return empty data since we don't have propositions table
   return {
     opportunities,
     loading,
-    createOpportunity,
-    updateOpportunity,
-    reloadOpportunities: loadOpportunities,
+    createOpportunity: async () => ({ data: null, error: 'Not implemented' }),
+    updateOpportunity: async () => ({ data: null, error: 'Not implemented' }),
+    reloadOpportunities: async () => {},
   }
 }
 

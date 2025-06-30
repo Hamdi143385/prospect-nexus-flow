@@ -63,11 +63,11 @@ export default function ProspectsList() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <Badge className={getStatusColor(contact.statut_lead)}>
-                  {contact.statut_lead}
+                <Badge className={getStatusColor(contact.statut_lead || 'Nouveau')}>
+                  {contact.statut_lead || 'Nouveau'}
                 </Badge>
                 <div className="text-sm text-gray-500">
-                  Score: {contact.score}
+                  Score: {contact.score || 0}
                 </div>
               </div>
             </div>

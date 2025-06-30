@@ -32,7 +32,20 @@ export const authAPI = {
       throw new Error('Mot de passe incorrect')
     }
     
-    return userData
+    // Transform and type the response properly
+    const user: User = {
+      id: userData.id,
+      email: userData.email,
+      nom_complet: userData.nom_complet,
+      role_id: userData.role_id,
+      equipe_id: userData.equipe_id,
+      statut: userData.statut as 'actif' | 'inactif',
+      created_at: userData.created_at,
+      role_nom: userData.roles?.nom || 'commercial',
+      role: userData.roles?.nom || 'commercial'
+    }
+    
+    return user
   },
 
   async getCurrentUser(userId: string) {
@@ -58,7 +71,7 @@ export const authAPI = {
         nom_complet: data.nom_complet,
         role_id: data.role_id,
         equipe_id: data.equipe_id,
-        statut: data.statut,
+        statut: data.statut as 'actif' | 'inactif',
         created_at: data.created_at,
         role_nom: data.roles?.nom || 'commercial',
         role: data.roles?.nom || 'commercial'

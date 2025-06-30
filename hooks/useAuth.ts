@@ -1,9 +1,7 @@
 
-'use client'
-
 import { useState, useEffect } from 'react'
-import { authAPI } from '../lib/supabase/api/auth'
-import type { User } from '../lib/supabase/api/types'
+import { authAPI } from '@/lib/supabase/api/auth'
+import type { User } from '@/lib/supabase/api/types'
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null)
@@ -32,13 +30,18 @@ export function useAuth() {
       const userData = await authAPI.login(email, password)
       
       if (userData && userData.id) {
-        setUser(userData)
-        localStorage.setItem('premunia_user', JSON.stringify(userData))
+        // Ensure proper type casting for statut
+        const user: User = {
+          ...userData,
+          statut: userData.statut as 'actif' | 'inactif'
+        }
+        setUser(user)
+        localStorage.setItem('premunia_user', JSON.stringify(user))
         
         // Mettre à jour la dernière connexion
         await authAPI.updateLastLogin(userData.id)
         
-        return { data: userData, error: null }
+        return { data: user, error: null }
       } else {
         setError('Erreur lors de la connexion')
         return { data: null, error: 'Erreur lors de la connexion' }
