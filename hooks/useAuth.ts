@@ -1,8 +1,9 @@
+
 'use client'
 
 import { useState, useEffect } from 'react'
-import { authAPI } from '../lib/supabase/complete-api'
-import type { User } from '../lib/supabase/complete-api'
+import { authAPI } from '../lib/supabase/api'
+import type { User } from '../lib/supabase/api'
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null)
