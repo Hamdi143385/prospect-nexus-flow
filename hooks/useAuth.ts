@@ -1,3 +1,4 @@
+
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -28,23 +29,23 @@ export function useAuth() {
       setLoading(true)
       setError(null)
       
-      const authResult = await authAPI.login(email, password)
+      const authUser = await authAPI.login(email, password)
       
-      if (authResult && authResult.success) {
-        const userData = await authAPI.getCurrentUser(authResult.user_id)
+      if (authUser && authUser.id) {
+        const userData = await authAPI.getCurrentUser(authUser.id)
         setUser(userData)
         localStorage.setItem('premunia_user', JSON.stringify(userData))
         
         // Mettre à jour la dernière connexion
-        await authAPI.updateLastLogin(authResult.user_id)
+        await authAPI.updateLastLogin(authUser.id)
         
         return { data: userData, error: null }
       } else {
-        setError('Email ou mot de passe incorrect')
-        return { data: null, error: 'Email ou mot de passe incorrect' }
+        setError('Erreur lors de la connexion')
+        return { data: null, error: 'Erreur lors de la connexion' }
       }
     } catch (error) {
-      const errorMessage = 'Erreur de connexion'
+      const errorMessage = 'Email ou mot de passe incorrect'
       setError(errorMessage)
       return { data: null, error: errorMessage }
     } finally {
