@@ -170,7 +170,7 @@ export function useProspects() {
       const { data, error } = await supabase
         .from('contacts')
         .select('*')
-        .order('date_creation', { ascending: false })
+        .order('created_at', { ascending: false })
       
       if (error) throw error
       
@@ -178,16 +178,16 @@ export function useProspects() {
       const transformedProspects: Prospect[] = (data || []).map(contact => ({
         id: contact.id,
         name: `${contact.prenom} ${contact.nom}`,
-        email: contact.email,
-        phone: contact.telephone || contact.telephone_mobile || '',
-        company: contact.entreprise || '',
+        email: contact.email || '',
+        phone: contact.telephone || '',
+        company: '', // No company field in contacts table
         age: 65, // Default age for seniors
         segment: 'Senior' as const,
-        score: contact.score,
-        status: contact.statut as any || 'Nouveau',
-        assigned_to: contact.conseiller_id || user.id,
-        created_at: contact.date_creation,
-        updated_at: contact.date_modification,
+        score: contact.score || 0,
+        status: contact.statut_lead as any || 'Nouveau',
+        assigned_to: contact.collaborateur_en_charge || user.id,
+        created_at: contact.created_at,
+        updated_at: contact.updated_at,
         source: 'Manuel' as const,
         revenue_potential: 2500, // Default revenue potential
         notes: contact.notes || undefined
@@ -216,13 +216,10 @@ export function useProspects() {
         nom: nameParts.slice(1).join(' ') || '',
         email: prospect.email,
         telephone: prospect.phone,
-        entreprise: prospect.company,
         score: prospect.score,
-        statut: prospect.status,
-        conseiller_id: prospect.assigned_to,
-        notes: prospect.notes,
-        pays: 'France',
-        consentement_rgpd: true
+        statut_lead: prospect.status,
+        collaborateur_en_charge: prospect.assigned_to,
+        notes: prospect.notes
       }
 
       const { data, error } = await supabase
@@ -237,16 +234,16 @@ export function useProspects() {
       const newProspect: Prospect = {
         id: data.id,
         name: `${data.prenom} ${data.nom}`,
-        email: data.email,
+        email: data.email || '',
         phone: data.telephone || '',
-        company: data.entreprise || '',
+        company: '',
         age: 65,
         segment: 'Senior',
-        score: data.score,
-        status: data.statut as any,
-        assigned_to: data.conseiller_id,
-        created_at: data.date_creation,
-        updated_at: data.date_modification,
+        score: data.score || 0,
+        status: data.statut_lead as any,
+        assigned_to: data.collaborateur_en_charge || user.id,
+        created_at: data.created_at,
+        updated_at: data.updated_at,
         source: 'Manuel',
         revenue_potential: 2500,
         notes: data.notes || undefined
@@ -271,9 +268,8 @@ export function useProspects() {
       }
       if (updates.email) contactUpdates.email = updates.email
       if (updates.phone) contactUpdates.telephone = updates.phone
-      if (updates.company) contactUpdates.entreprise = updates.company
       if (updates.score !== undefined) contactUpdates.score = updates.score
-      if (updates.status) contactUpdates.statut = updates.status
+      if (updates.status) contactUpdates.statut_lead = updates.status
       if (updates.notes) contactUpdates.notes = updates.notes
 
       const { data, error } = await supabase
@@ -336,7 +332,7 @@ export function useOpportunities() {
           *,
           contacts (*)
         `)
-        .order('date_creation', { ascending: false })
+        .order('created_at', { ascending: false })
       
       if (error) throw error
       setOpportunities(data || [])
@@ -356,14 +352,11 @@ export function useOpportunities() {
   const createOpportunity = async (opportunity: Omit<Opportunity, 'id' | 'created_at' | 'updated_at'>) => {
     try {
       const propositionData = {
-        titre: opportunity.title,
         contact_id: opportunity.prospect_id,
-        montant_ttc: opportunity.value,
-        probabilite: opportunity.probability,
-        statut: 'En cours',
-        taux_tva: 20,
-        numero: `PROP-${Date.now()}`,
-        conseiller_id: opportunity.created_by
+        montant_mensuel: opportunity.value,
+        statut: 'brouillon',
+        conseiller_id: opportunity.created_by,
+        produit: opportunity.title
       }
 
       const { data, error } = await supabase
@@ -384,9 +377,8 @@ export function useOpportunities() {
   const updateOpportunity = async (id: string, updates: Partial<Opportunity>) => {
     try {
       const propositionUpdates: any = {}
-      if (updates.title) propositionUpdates.titre = updates.title
-      if (updates.value) propositionUpdates.montant_ttc = updates.value
-      if (updates.probability !== undefined) propositionUpdates.probabilite = updates.probability
+      if (updates.title) propositionUpdates.produit = updates.title
+      if (updates.value) propositionUpdates.montant_mensuel = updates.value
 
       const { data, error } = await supabase
         .from('propositions')
@@ -424,7 +416,7 @@ export function useMarketingCampaigns() {
       const { data, error } = await supabase
         .from('campagnes')
         .select('*')
-        .order('date_creation', { ascending: false })
+        .order('created_at', { ascending: false })
       
       if (error) throw error
       
@@ -432,20 +424,20 @@ export function useMarketingCampaigns() {
       const transformedCampaigns: MarketingCampaign[] = (data || []).map(campaign => ({
         id: campaign.id,
         name: campaign.nom,
-        type: campaign.type_campagne as any || 'Email',
+        type: campaign.type as any || 'Email',
         target_segment: 'Senior',
         template_content: campaign.description || '',
         status: campaign.statut as any || 'Draft',
-        created_by: campaign.createur_id || '',
-        created_at: campaign.date_creation,
+        created_by: campaign.cree_par || '',
+        created_at: campaign.created_at,
         stats: {
-          sent: campaign.nb_emails_envoyes,
-          opened: campaign.nb_ouvertures,
-          clicked: campaign.nb_clics,
-          converted: campaign.nb_conversions,
+          sent: 0,
+          opened: 0,
+          clicked: 0,
+          converted: 0,
           bounced: 0
         },
-        automation_rules: campaign.actions || {}
+        automation_rules: campaign.declencheur || {}
       }))
       
       setCampaigns(transformedCampaigns)
@@ -464,18 +456,12 @@ export function useMarketingCampaigns() {
     try {
       const campaignData = {
         nom: campaign.name,
-        type_campagne: campaign.type,
+        type: campaign.type,
         description: campaign.template_content,
         statut: campaign.status,
-        createur_id: campaign.created_by,
-        nb_emails_envoyes: 0,
-        nb_ouvertures: 0,
-        nb_clics: 0,
-        nb_conversions: 0,
-        nb_contacts_cibles: 0,
-        actions: campaign.automation_rules,
-        conditions: {},
-        declencheur: {}
+        cree_par: campaign.created_by,
+        declencheur: campaign.automation_rules || {},
+        etapes: []
       }
 
       const { data, error } = await supabase
@@ -489,12 +475,12 @@ export function useMarketingCampaigns() {
       const newCampaign: MarketingCampaign = {
         id: data.id,
         name: data.nom,
-        type: data.type_campagne as any,
+        type: data.type as any,
         target_segment: 'Senior',
         template_content: data.description || '',
         status: data.statut as any,
-        created_by: data.createur_id,
-        created_at: data.date_creation,
+        created_by: data.cree_par,
+        created_at: data.created_at,
         stats: {
           sent: 0,
           opened: 0,
@@ -502,7 +488,7 @@ export function useMarketingCampaigns() {
           converted: 0,
           bounced: 0
         },
-        automation_rules: data.actions || {}
+        automation_rules: data.declencheur || {}
       }
       
       setCampaigns(prev => [newCampaign, ...prev])
