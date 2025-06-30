@@ -8,7 +8,8 @@ export { workflowsAPI } from './workflows'
 export { interactionsAPI } from './interactions'
 export { analyticsAPI } from './analytics'
 
-// Export types
+// Export types - make sure User is properly exported
+export type { User } from './types'
 export type * from './types'
 
 // Default export for backward compatibility
