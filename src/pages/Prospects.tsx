@@ -283,7 +283,7 @@ export default function Prospects() {
               <CardContent>
                 <div className="space-y-3">
                   <div className="text-2xl font-bold text-yellow-600">16</div>
-                  <p className="text-sm text-gray-600">Score IA > 85 - Action immédiate</p>
+                  <p className="text-sm text-gray-600">Score IA &gt; 85 - Action immédiate</p>
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span>Score moyen</span>
