@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react'
-import { supabase } from '@/lib/supabase/enhanced-client'
-import type { Campagne } from '@/lib/supabase/api/types'
+import { supabase } from '../../lib/supabase/enhanced-client'
+import type { Campagne } from '../../lib/supabase/api/types'
 
 export function useCampagnes() {
   const [campagnes, setCampagnes] = useState<Campagne[]>([])

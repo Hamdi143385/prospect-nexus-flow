@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react'
-import { authAPI } from '@/lib/supabase/api/auth'
-import type { User } from '@/lib/supabase/api/types'
+import { authAPI } from '../../lib/supabase/api/auth'
+import type { User } from '../../lib/supabase/api/types'
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null)
