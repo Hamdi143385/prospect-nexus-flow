@@ -21,7 +21,8 @@ export function useCampagnes() {
       // Type cast the data to match our interface
       const typedCampagnes: Campagne[] = (data || []).map(item => ({
         ...item,
-        statut: item.statut as 'brouillon' | 'actif' | 'pause' | 'termine'
+        statut: item.statut as 'brouillon' | 'actif' | 'pause' | 'termine',
+        etapes: Array.isArray(item.etapes) ? item.etapes : []
       }))
       
       setCampagnes(typedCampagnes)
